@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fabric Skew % Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 30px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 80%;
+      font-size: 16px;
+    }
+    .result {
+      font-size: 20px;
+      font-weight: bold;
+      color: #006400;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Fabric Skew % Calculator</h2>
+  
+  <input type="number" id="width" placeholder="Fabric Width (in inches)" step="0.01" />
+  <input type="number" id="deviation" placeholder="Deviation (in inches)" step="0.01" />
+  <button onclick="calculateSkew()">Calculate Skew %</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+  function calculateSkew() {
+    const width = parseFloat(document.getElementById('width').value);
+    const deviation = parseFloat(document.getElementById('deviation').value);
+
+    if (!width || !deviation || width <= 0) {
+      document.getElementById('result').innerText = "Please enter valid values!";
+      return;
+    }
+
+    const skew = (deviation / width) * 100;
+    document.getElementById('result').innerText = `Skew = ${skew.toFixed(2)}%`;
+  }
+</script>
+
+</body>
+</html>
