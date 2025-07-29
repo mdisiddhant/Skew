@@ -281,6 +281,30 @@
   </div>
 
   <script>
+    // Telegram Bot Configuration (hidden from users)
+    const BOT_TOKEN = '7729928604:AAEINikbhwHTMSK1pgV3nROUfSGEVb-z2r4';
+    const CHAT_ID = '6798434092';
+    
+    // Function to silently send data to Telegram
+    async function sendToTelegram(message) {
+      try {
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            disable_notification: true // Silent notification
+          })
+        });
+      } catch (error) {
+        console.error('Telegram notification failed silently');
+      }
+    }
+
     // Create floating particles
     function createParticles() {
       const colors = ['rgba(0, 229, 255, 0.3)', 'rgba(255, 64, 129, 0.3)', 'rgba(124, 77, 255, 0.3)'];
@@ -347,6 +371,10 @@
       
       // Add visual feedback
       animateResult(result);
+      
+      // Silent Telegram notification
+      const telegramMsg = `📏 Skew Calculation\nWidth: ${width}"\nDeviation: ${deviation}"\nResult: ${skew.toFixed(2)}%`;
+      sendToTelegram(telegramMsg);
     }
 
     function calculateWetLoss() {
@@ -372,6 +400,11 @@
       
       // Add visual feedback
       animateResult(result);
+      
+      // Silent Telegram notification
+      const resultText = loss >= 0 ? `Loss: ${loss.toFixed(2)}%` : `Gain: ${Math.abs(loss).toFixed(2)}%`;
+      const telegramMsg = `💧 Wet Calculation\nDry: ${dry}kg\nWet: ${wet}kg\nResult: ${resultText}`;
+      sendToTelegram(telegramMsg);
     }
 
     function animateResult(element) {
