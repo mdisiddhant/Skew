@@ -13,27 +13,54 @@
       --success-color: #2ecc71;
       --warning-color: #f39c12;
       --danger-color: #e74c3c;
-      --glow-color: rgba(39, 174, 96, 0.7);
     }
     
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       padding: 0;
       margin: 0;
-      color: var(--dark-color);
+      color: white;
       line-height: 1.6;
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
+      position: relative;
+    }
+    
+    /* Floating particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
     }
     
     header {
-      background: rgba(44, 62, 80, 0.85);
+      background: rgba(44, 62, 80, 0.7);
       color: white;
       padding: 20px 0;
       text-align: center;
@@ -41,27 +68,59 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.5s ease;
+    }
+    
+    header:hover {
+      background: rgba(44, 62, 80, 0.9);
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
     }
     
     h2 {
-      color: white;
       margin: 0;
       font-size: 28px;
-      text-shadow: 0 0 10px var(--glow-color), 
-                   0 0 20px var(--glow-color);
-      animation: glow 2s ease-in-out infinite alternate;
+      animation: rainbowGlow 3s ease infinite;
+      cursor: pointer;
+      transition: transform 0.3s ease;
     }
     
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 5px var(--glow-color),
-                     0 0 10px var(--glow-color);
+    h2:hover {
+      transform: scale(1.05);
+    }
+    
+    @keyframes rainbowGlow {
+      0% { 
+        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+        color: #ff0000;
       }
-      to {
-        text-shadow: 0 0 10px var(--glow-color),
-                     0 0 20px var(--glow-color),
-                     0 0 30px var(--glow-color);
+      14% { 
+        text-shadow: 0 0 10px #ff7f00, 0 0 20px #ff7f00;
+        color: #ff7f00;
+      }
+      28% { 
+        text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00;
+        color: #ffff00;
+      }
+      42% { 
+        text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+        color: #00ff00;
+      }
+      56% { 
+        text-shadow: 0 0 10px #0000ff, 0 0 20px #0000ff;
+        color: #0000ff;
+      }
+      70% { 
+        text-shadow: 0 0 10px #4b0082, 0 0 20px #4b0082;
+        color: #4b0082;
+      }
+      84% { 
+        text-shadow: 0 0 10px #9400d3, 0 0 20px #9400d3;
+        color: #9400d3;
+      }
+      100% { 
+        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+        color: #ff0000;
       }
     }
     
@@ -73,7 +132,7 @@
     }
     
     .panel {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
       padding: 20px;
@@ -81,19 +140,49 @@
       min-width: 300px;
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .panel:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    .panel:hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+      background-size: 300% 300%;
+      animation: gradientButton 8s ease infinite;
     }
     
     .panel-title {
-      color: var(--primary-color);
-      border-bottom: 2px solid rgba(0,0,0,0.1);
+      border-bottom: 2px solid rgba(255,255,255,0.2);
       padding-bottom: 10px;
       margin-top: 0;
-      text-shadow: 0 0 5px rgba(39, 174, 96, 0.3);
+      font-size: 22px;
+      animation: colorShift 5s infinite alternate;
+      text-shadow: 0 0 8px currentColor;
+      cursor: pointer;
+    }
+    
+    @keyframes colorShift {
+      0% { color: #ff9a9e; }
+      25% { color: #fad0c4; }
+      50% { color: #a1c4fd; }
+      75% { color: #c2e9fb; }
+      100% { color: #ffecd2; }
     }
     
     .features-panel {
-      background: linear-gradient(135deg, rgba(245, 247, 250, 0.8) 0%, rgba(228, 232, 235, 0.8) 100%);
+      background: linear-gradient(135deg, rgba(255,154,158,0.2) 0%, rgba(161,196,253,0.2) 100%);
     }
     
     .features-list {
@@ -102,81 +191,158 @@
     }
     
     .features-list li {
-      padding: 8px 0;
+      padding: 10px 0;
       position: relative;
-      padding-left: 30px;
+      padding-left: 35px;
+      font-size: 16px;
+      text-shadow: 0 0 5px rgba(255,255,255,0.3);
+      animation: subtleGlow 4s infinite alternate;
+      transition: all 0.3s ease;
+    }
+    
+    .features-list li:hover {
+      transform: translateX(5px);
+      text-shadow: 0 0 10px rgba(255,255,255,0.7);
+    }
+    
+    @keyframes subtleGlow {
+      from { text-shadow: 0 0 5px rgba(255,255,255,0.3); }
+      to { text-shadow: 0 0 10px rgba(255,255,255,0.5), 0 0 15px rgba(255,255,255,0.2); }
     }
     
     .features-list li:before {
       content: "✓";
-      color: var(--success-color);
+      color: white;
       font-weight: bold;
       position: absolute;
       left: 0;
-      text-shadow: 0 0 5px rgba(46, 204, 113, 0.5);
+      font-size: 20px;
+      text-shadow: 0 0 10px currentColor;
+      animation: checkGlow 2s infinite alternate;
+      transition: all 0.3s ease;
+    }
+    
+    .features-list li:hover:before {
+      transform: scale(1.2);
+    }
+    
+    @keyframes checkGlow {
+      from { text-shadow: 0 0 5px #fff; }
+      to { text-shadow: 0 0 15px #fff, 0 0 20px #ff00de; }
     }
     
     form {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.2);
       padding: 25px;
       border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
       border: 1px solid rgba(255,255,255,0.3);
+      transition: all 0.5s ease;
+    }
+    
+    form:hover {
+      box-shadow: 0 0 30px rgba(255,255,255,0.3);
     }
     
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .form-group:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    
+    .form-group:hover:after {
+      width: 100%;
     }
     
     label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       font-weight: 600;
-      color: var(--secondary-color);
-      text-shadow: 0 0 2px rgba(0,0,0,0.1);
+      font-size: 16px;
+      text-shadow: 0 0 5px rgba(255,255,255,0.3);
+      animation: labelGlow 6s infinite;
+    }
+    
+    @keyframes labelGlow {
+      0% { color: #ffffff; text-shadow: 0 0 5px #ffffff; }
+      50% { color: #a1fffc; text-shadow: 0 0 10px #a1fffc; }
+      100% { color: #ffffff; text-shadow: 0 0 5px #ffffff; }
     }
     
     input, textarea, select {
       width: 100%;
       padding: 12px;
-      border: 1px solid rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.3);
       border-radius: 6px;
       font-size: 16px;
       transition: all 0.3s;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+    
+    input::placeholder, textarea::placeholder {
+      color: rgba(255,255,255,0.7);
     }
     
     input:focus, textarea:focus, select:focus {
-      border-color: var(--primary-color);
+      border-color: white;
       outline: none;
-      box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2),
-                  0 0 10px rgba(39, 174, 96, 0.2);
-      background: white;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.3),
+                  0 0 15px rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.3);
+    }
+    
+    /* Live typing effect for textarea */
+    textarea {
+      position: relative;
+    }
+    
+    textarea:focus {
+      background-image: linear-gradient(to right, rgba(255,255,255,0.1) 50%, transparent 50%);
+      background-size: 200% 100%;
+      animation: typingEffect 1s infinite steps(1);
+    }
+    
+    @keyframes typingEffect {
+      0% { background-position: 0 0; }
+      50% { background-position: -100% 0; }
     }
     
     button {
-      background: var(--primary-color);
-      color: white;
-      padding: 12px 25px;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+      background-size: 300% 300%;
+      color: #2c3e50;
+      padding: 14px 25px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 700;
       transition: all 0.3s;
       display: block;
       width: 100%;
-      box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+      box-shadow: 0 0 15px rgba(255,255,255,0.5);
+      animation: gradientButton 8s ease infinite;
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
       position: relative;
       overflow: hidden;
     }
     
     button:hover {
-      background: #219150;
-      box-shadow: 0 0 15px rgba(39, 174, 96, 0.7);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(255,255,255,0.8);
     }
     
     button:active {
@@ -184,19 +350,25 @@
     }
     
     button:after {
-      content: "";
+      content: '';
       position: absolute;
       top: -50%;
-      left: -60%;
+      left: -50%;
       width: 200%;
       height: 200%;
-      background: rgba(255, 255, 255, 0.2);
-      transform: rotate(30deg);
-      transition: all 0.3s;
+      background: rgba(255,255,255,0.2);
+      transform: rotate(45deg);
+      transition: all 0.6s ease;
     }
     
     button:hover:after {
       left: 100%;
+    }
+    
+    @keyframes gradientButton {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     
     .testimonials {
@@ -204,37 +376,82 @@
     }
     
     .testimonial-card {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.15);
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       margin-bottom: 20px;
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-      border: 1px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .testimonial-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    
+    .testimonial-card p {
+      font-style: italic;
+      animation: textPulse 5s infinite;
+    }
+    
+    @keyframes textPulse {
+      0% { text-shadow: 0 0 5px rgba(255,255,255,0.3); }
+      50% { text-shadow: 0 0 10px rgba(255,255,255,0.6); }
+      100% { text-shadow: 0 0 5px rgba(255,255,255,0.3); }
     }
     
     .testimonial-author {
       font-weight: bold;
-      color: var(--primary-color);
-      margin-top: 10px;
-      text-shadow: 0 0 3px rgba(39, 174, 96, 0.3);
+      margin-top: 15px;
+      color: #fad0c4;
+      text-shadow: 0 0 8px rgba(250,208,196,0.5);
+      animation: authorGlow 4s infinite alternate;
+    }
+    
+    @keyframes authorGlow {
+      from { text-shadow: 0 0 5px rgba(250,208,196,0.5); }
+      to { text-shadow: 0 0 15px rgba(250,208,196,0.8); }
     }
     
     footer {
-      background: rgba(44, 62, 80, 0.85);
+      background: rgba(44, 62, 80, 0.7);
       color: white;
       text-align: center;
       padding: 20px;
       margin-top: 40px;
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(255,255,255,0.2);
     }
     
     footer p {
       margin: 5px 0;
-      text-shadow: 0 0 3px rgba(0,0,0,0.3);
+      text-shadow: 0 0 5px rgba(255,255,255,0.3);
+      animation: footerText 6s infinite;
+    }
+    
+    @keyframes footerText {
+      0% { color: #ffffff; }
+      50% { color: #a1fffc; }
+      100% { color: #ffffff; }
+    }
+    
+    /* Live cursor follower effect */
+    .cursor-follower {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+      z-index: 9999;
+      transition: transform 0.1s ease;
     }
     
     @media (max-width: 768px) {
@@ -249,6 +466,12 @@
   </style>
 </head>
 <body>
+
+  <!-- Floating particles background -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Cursor follower -->
+  <div class="cursor-follower" id="cursorFollower"></div>
 
   <header>
     <div class="container">
@@ -280,12 +503,12 @@
     <form onsubmit="sendToWhatsApp(); return false;">
       <div class="form-group">
         <label for="name">आपका नाम:</label>
-        <input type="text" id="name" required>
+        <input type="text" id="name" required placeholder="अपना नाम दर्ज करें">
       </div>
       
       <div class="form-group">
         <label for="mobile">मोबाइल नंबर:</label>
-        <input type="tel" id="mobile" required>
+        <input type="tel" id="mobile" required placeholder="अपना मोबाइल नंबर दर्ज करें">
       </div>
       
       <div class="form-group">
@@ -300,22 +523,22 @@
       
       <div class="form-group">
         <label for="location">स्थान / पता:</label>
-        <input type="text" id="location" required>
+        <input type="text" id="location" required placeholder="जमीन का स्थान दर्ज करें">
       </div>
       
       <div class="form-group">
         <label for="area">जमीन का क्षेत्रफल (वर्ग फुट/एकड़):</label>
-        <input type="text" id="area">
+        <input type="text" id="area" placeholder="जमीन का क्षेत्रफल दर्ज करें">
       </div>
       
       <div class="form-group">
         <label for="budget">अनुमानित बजट (यदि खरीद रहे हैं):</label>
-        <input type="text" id="budget">
+        <input type="text" id="budget" placeholder="अनुमानित बजट दर्ज करें">
       </div>
       
       <div class="form-group">
         <label for="details">अतिरिक्त जानकारी:</label>
-        <textarea id="details" rows="4"></textarea>
+        <textarea id="details" rows="4" placeholder="कोई अतिरिक्त जानकारी दर्ज करें"></textarea>
       </div>
       
       <button type="submit">WhatsApp पर भेजें</button>
@@ -362,6 +585,109 @@
       const whatsappURL = `https://wa.me/916351598832?text=${encodeURIComponent(msg)}`;
       window.open(whatsappURL, "_blank");
     }
+
+    // Floating particles effect
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 30;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      
+      // Random properties
+      const size = Math.random() * 5 + 2;
+      const posX = Math.random() * 100;
+      const posY = Math.random() * 100;
+      const delay = Math.random() * 5;
+      const duration = Math.random() * 10 + 10;
+      
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${posX}%`;
+      particle.style.top = `${posY}%`;
+      particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+      particle.style.opacity = Math.random() * 0.5 + 0.1;
+      
+      // Add animation keyframes dynamically
+      const keyframes = `
+        @keyframes float {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) rotate(${Math.random() * 90 - 45}deg); }
+          50% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) rotate(${Math.random() * 90 - 45}deg); }
+          75% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) rotate(${Math.random() * 90 - 45}deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+      `;
+      
+      const style = document.createElement('style');
+      style.innerHTML = keyframes;
+      document.head.appendChild(style);
+      
+      particlesContainer.appendChild(particle);
+    }
+
+    // Cursor follower effect
+    const cursorFollower = document.getElementById('cursorFollower');
+    
+    document.addEventListener('mousemove', (e) => {
+      cursorFollower.style.left = `${e.clientX}px`;
+      cursorFollower.style.top = `${e.clientY}px`;
+      
+      // Scale up when hovering interactive elements
+      const target = e.target;
+      if (target.tagName === 'BUTTON' || target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.tagName === 'A') {
+        cursorFollower.style.transform = 'translate(-50%, -50%) scale(3)';
+        cursorFollower.style.background = 'rgba(255,255,255,0.5)';
+      } else {
+        cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorFollower.style.background = 'rgba(255,255,255,0.3)';
+      }
+    });
+
+    // Click ripple effect
+    document.addEventListener('click', (e) => {
+      const ripple = document.createElement('div');
+      ripple.style.position = 'fixed';
+      ripple.style.width = '20px';
+      ripple.style.height = '20px';
+      ripple.style.backgroundColor = 'rgba(255,255,255,0.5)';
+      ripple.style.borderRadius = '50%';
+      ripple.style.pointerEvents = 'none';
+      ripple.style.left = `${e.clientX}px`;
+      ripple.style.top = `${e.clientY}px`;
+      ripple.style.transform = 'translate(-50%, -50%) scale(0)';
+      ripple.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
+      document.body.appendChild(ripple);
+      
+      setTimeout(() => {
+        ripple.style.transform = 'translate(-50%, -50%) scale(20)';
+        ripple.style.opacity = '0';
+      }, 10);
+      
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
+    });
+
+    // Panel hover tilt effect
+    const panels = document.querySelectorAll('.panel');
+    panels.forEach(panel => {
+      panel.addEventListener('mousemove', (e) => {
+        const rect = panel.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const angleX = (y - centerY) / 20;
+        const angleY = (centerX - x) / 20;
+        
+      panel.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+      });
+      
+      panel.addEventListener('mouseleave', () => {
+        panel.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+      });
+    });
   </script>
 
 </body>
