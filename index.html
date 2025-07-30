@@ -1,444 +1,295 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fabric Calculator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>जमीन खरीदें / बेचें</title>
   <style>
     :root {
-      --primary: #00e5ff;
-      --secondary: #ff4081;
-      --tertiary: #7c4dff;
-      --background: #0f0f0f;
-      --glass: rgba(255, 255, 255, 0.08);
+      --primary-color: #27ae60;
+      --secondary-color: #2c3e50;
+      --light-color: #f5f5f5;
+      --dark-color: #333;
+      --success-color: #2ecc71;
+      --warning-color: #f39c12;
+      --danger-color: #e74c3c;
     }
-
+    
     body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 0;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #000000, #1a1a1a);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      overflow-x: hidden;
+      color: var(--dark-color);
+      line-height: 1.6;
     }
-
-    h1 {
-      text-align: center;
-      color: var(--primary);
-      text-shadow: 0 0 10px var(--primary);
-      animation: glow 2s ease-in-out infinite alternate;
-      margin-bottom: 30px;
-      position: relative;
-      z-index: 10;
-    }
-
-    @keyframes glow {
-      0% { text-shadow: 0 0 5px var(--primary); }
-      50% { text-shadow: 0 0 20px var(--primary), 0 0 30px var(--secondary); }
-      100% { text-shadow: 0 0 5px var(--primary); }
-    }
-
-    .floating-container {
-      width: 100%;
+    
+    .container {
       max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: var(--secondary-color);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    h2 {
+      color: white;
+      margin: 0;
+      font-size: 28px;
+    }
+    
+    .panel-container {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      perspective: 1000px;
+      gap: 20px;
+      margin-bottom: 30px;
     }
-
+    
     .panel {
-      background: var(--glass);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 25px;
-      width: 100%;
-      max-width: 400px;
-      animation: float 6s ease-in-out infinite;
-      transform-style: preserve-3d;
-      transition: all 0.5s ease;
-      position: relative;
-      overflow: hidden;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 20px;
+      flex: 1;
+      min-width: 300px;
     }
-
-    .panel:hover {
-      transform: translateY(-10px) rotateY(5deg);
-      box-shadow: 0 15px 40px rgba(0, 229, 255, 0.3);
-    }
-
-    .panel:nth-child(1) {
-      animation-delay: 0s;
-      border-top: 2px solid var(--primary);
-    }
-
-    .panel:nth-child(2) {
-      animation-delay: 0.5s;
-      border-top: 2px solid var(--secondary);
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
-      50% { transform: translateY(-20px) rotateX(5deg) rotateY(5deg); }
-    }
-
-    .panel::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        to bottom right,
-        transparent,
-        transparent,
-        transparent,
-        rgba(0, 229, 255, 0.1)
-      );
-      transform: rotate(30deg);
-      animation: shine 6s infinite;
-      z-index: -1;
-    }
-
-    @keyframes shine {
-      0% { transform: rotate(30deg) translate(-30%, -30%); }
-      100% { transform: rotate(30deg) translate(30%, 30%); }
-    }
-
-    h2 {
-      color: var(--primary);
+    
+    .panel-title {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--light-color);
+      padding-bottom: 10px;
       margin-top: 0;
-      font-size: 1.5rem;
+    }
+    
+    .features-panel {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+    }
+    
+    .features-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    
+    .features-list li {
+      padding: 8px 0;
       position: relative;
-      display: inline-block;
+      padding-left: 30px;
     }
-
-    h2::after {
-      content: '';
+    
+    .features-list li:before {
+      content: "✓";
+      color: var(--success-color);
+      font-weight: bold;
       position: absolute;
-      bottom: -5px;
       left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary), transparent);
-      animation: underline-glow 2s infinite;
     }
-
-    @keyframes underline-glow {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
+    
+    form {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
-
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
     label {
       display: block;
-      margin-top: 15px;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.9rem;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: var(--secondary-color);
     }
-
-    input {
+    
+    input, textarea, select {
       width: 100%;
-      padding: 12px 15px;
-      margin-top: 8px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      color: white;
-      font-size: 1rem;
-      transition: all 0.3s;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.3);
-    }
-
-    button {
-      margin-top: 20px;
-      background: linear-gradient(45deg, var(--primary), var(--tertiary));
-      border: none;
-      color: black;
       padding: 12px;
-      font-weight: bold;
-      font-size: 1rem;
-      border-radius: 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border 0.3s;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+    }
+    
+    button {
+      background: var(--primary-color);
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.3s;
+      display: block;
       width: 100%;
-      height: 100%;
-      background: linear-gradient(45deg, var(--secondary), var(--primary));
-      opacity: 0;
-      transition: opacity 0.3s;
-      z-index: -1;
     }
-
+    
     button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(0, 229, 255, 0.3);
+      background: #219150;
     }
-
-    button:hover::before {
-      opacity: 1;
+    
+    .testimonials {
+      margin-top: 40px;
     }
-
-    .result {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(0, 0, 0, 0.3);
-      border-left: 3px solid var(--primary);
-      border-radius: 5px;
-      font-size: 1.1rem;
-      animation: fadeIn 0.5s;
+    
+    .testimonial-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .error {
-      color: #ff5555;
+    
+    .testimonial-author {
+      font-weight: bold;
+      color: var(--primary-color);
       margin-top: 10px;
-      font-size: 0.9rem;
-      animation: shake 0.5s;
     }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-5px); }
-      40%, 80% { transform: translateX(5px); }
+    
+    footer {
+      background: var(--secondary-color);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
     }
-
-    .particle {
-      position: absolute;
-      background: rgba(0, 229, 255, 0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: -1;
-    }
-
+    
     @media (max-width: 768px) {
-      .floating-container {
+      .panel-container {
         flex-direction: column;
-        align-items: center;
-      }
-      
-      .panel {
-        max-width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <h1>🧵 FLOATING FABRIC CALCULATOR</h1>
 
-  <div class="floating-container">
-    <!-- Skew Calculator -->
-    <div class="panel">
-      <h2>📐 SKEW % CALCULATOR</h2>
-      <label for="width">Fabric Width (inches):</label>
-      <input type="number" id="width" placeholder="e.g. 60">
+  <header>
+    <div class="container">
+      <h2>जमीन खरीदने / बेचने के लिए संपर्क करें</h2>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="panel-container">
+      <div class="panel features-panel">
+        <h3 class="panel-title">हमारी सेवाएं</h3>
+        <ul class="features-list">
+          <li>सभी प्रकार की जमीन खरीदें और बेचें</li>
+          <li>कानूनी दस्तावेजों की पूरी जांच</li>
+          <li>मार्केट रेट के अनुसार मूल्यांकन</li>
+          <li>पंजीकरण और स्टाम्प पेपर सहायता</li>
+          <li>ऋण सहायता उपलब्ध</li>
+          <li>24x7 ग्राहक सहायता</li>
+        </ul>
+      </div>
       
-      <label for="deviation">Deviation (inches):</label>
-      <input type="number" id="deviation" placeholder="e.g. 1.2">
-      
-      <button onclick="calculateSkew()">CALCULATE SKEW</button>
-      <div id="skewResult" class="result"></div>
-      <div id="skewError" class="error"></div>
+      <div class="panel">
+        <h3 class="panel-title">जमीन की जानकारी</h3>
+        <p>हम आपको सर्वोत्तम मूल्य पर जमीन खरीदने और बेचने में मदद करते हैं। हमारे विशेषज्ञ आपको संपत्ति के कानूनी पहलुओं, मूल्यांकन और दस्तावेज़ीकरण में पूर्ण सहायता प्रदान करेंगे।</p>
+        <p>अपनी आवश्यकताओं के बारे में हमें बताएं और हम आपके लिए सर्वोत्तम विकल्प ढूंढेंगे।</p>
+      </div>
     </div>
 
-    <!-- Wet Loss Calculator -->
-    <div class="panel">
-      <h2>💧 WET LOSS % CALCULATOR</h2>
-      <label for="greyDry">Grey Dry Weight (kg):</label>
-      <input type="number" id="greyDry" placeholder="e.g. 100">
+    <form onsubmit="sendToWhatsApp(); return false;">
+      <div class="form-group">
+        <label for="name">आपका नाम:</label>
+        <input type="text" id="name" required>
+      </div>
       
-      <label for="greyWet">Finish Wet Weight (kg):</label>
-      <input type="number" id="greyWet" placeholder="e.g. 95">
+      <div class="form-group">
+        <label for="mobile">मोबाइल नंबर:</label>
+        <input type="tel" id="mobile" required>
+      </div>
       
-      <button onclick="calculateWetLoss()">CALCULATE WET LOSS</button>
-      <div id="wetResult" class="result"></div>
-      <div id="wetError" class="error"></div>
+      <div class="form-group">
+        <label for="purpose">जमीन खरीदनी है या बेचनी?</label>
+        <select id="purpose" required>
+          <option value="">चुनें</option>
+          <option value="खरीदना">खरीदना</option>
+          <option value="बेचना">बेचना</option>
+          <option value="पूछताछ">सिर्फ पूछताछ</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="location">स्थान / पता:</label>
+        <input type="text" id="location" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="area">जमीन का क्षेत्रफल (वर्ग फुट/एकड़):</label>
+        <input type="text" id="area">
+      </div>
+      
+      <div class="form-group">
+        <label for="budget">अनुमानित बजट (यदि खरीद रहे हैं):</label>
+        <input type="text" id="budget">
+      </div>
+      
+      <div class="form-group">
+        <label for="details">अतिरिक्त जानकारी:</label>
+        <textarea id="details" rows="4"></textarea>
+      </div>
+      
+      <button type="submit">WhatsApp पर भेजें</button>
+    </form>
+    
+    <div class="testimonials">
+      <h3>हमारे ग्राहक क्या कहते हैं</h3>
+      
+      <div class="testimonial-card">
+        <p>"मैंने इनकी मदद से अपनी जमीन बेची और बहुत अच्छा मूल्य मिला। कानूनी प्रक्रिया भी बहुत आसानी से पूरी हुई।"</p>
+        <div class="testimonial-author">- राजेश कुमार, इंदौर</div>
+      </div>
+      
+      <div class="testimonial-card">
+        <p>"खेती की जमीन खरीदने में पूरी सहायता मिली। दस्तावेजों की जांच अच्छे से की गई और सही मूल्य पर जमीन मिली।"</p>
+        <div class="testimonial-author">- प्रिया शर्मा, भोपाल</div>
+      </div>
     </div>
   </div>
+  
+  <footer>
+    <div class="container">
+      <p>© 2023 जमीन कनेक्ट. सर्वाधिकार सुरक्षित</p>
+      <p>संपर्क: info@zameenconnect.com | फोन: +91 6351598832</p>
+    </div>
+  </footer>
 
   <script>
-    // Telegram Bot Configuration (hidden from users)
-    const BOT_TOKEN = '7729928604:AAEINikbhwHTMSK1pgV3nROUfSGEVb-z2r4';
-    const CHAT_ID = '6798434092';
-    
-    // Function to silently send data to Telegram
-    async function sendToTelegram(message) {
-      try {
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: message,
-            disable_notification: true // Silent notification
-          })
-        });
-      } catch (error) {
-        console.error('Telegram notification failed silently');
-      }
+    function sendToWhatsApp() {
+      const name = document.getElementById("name").value;
+      const mobile = document.getElementById("mobile").value;
+      const purpose = document.getElementById("purpose").value;
+      const location = document.getElementById("location").value;
+      const area = document.getElementById("area").value;
+      const budget = document.getElementById("budget").value;
+      const details = document.getElementById("details").value;
+
+      let msg = `जमीन ${purpose} है\n\n👤 नाम: ${name}\n📞 मोबाइल: ${mobile}\n📍 स्थान: ${location}`;
+      
+      if (area) msg += `\n📏 क्षेत्रफल: ${area}`;
+      if (budget) msg += `\n💰 बजट: ${budget}`;
+      if (details) msg += `\n📝 जानकारी: ${details}`;
+      
+      const whatsappURL = `https://wa.me/916351598832?text=${encodeURIComponent(msg)}`;
+      window.open(whatsappURL, "_blank");
     }
-
-    // Create floating particles
-    function createParticles() {
-      const colors = ['rgba(0, 229, 255, 0.3)', 'rgba(255, 64, 129, 0.3)', 'rgba(124, 77, 255, 0.3)'];
-      
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        const size = Math.random() * 10 + 5;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${Math.random() * 100}vw`;
-        particle.style.top = `${Math.random() * 100}vh`;
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.opacity = Math.random();
-        
-        // Animation
-        const duration = Math.random() * 20 + 10;
-        particle.style.animation = `floatParticle ${duration}s linear infinite`;
-        particle.style.animationDelay = `${Math.random() * 5}s`;
-        
-        document.body.appendChild(particle);
-      }
-    }
-
-    // Particle floating animation
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes floatParticle {
-        0% {
-          transform: translate(0, 0) rotate(0deg);
-          opacity: ${Math.random()};
-        }
-        50% {
-          transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) rotate(180deg);
-          opacity: ${Math.random()};
-        }
-        100% {
-          transform: translate(0, 0) rotate(360deg);
-          opacity: ${Math.random()};
-        }
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Initialize particles
-    createParticles();
-
-    function calculateSkew() {
-      const width = parseFloat(document.getElementById('width').value);
-      const deviation = parseFloat(document.getElementById('deviation').value);
-      const result = document.getElementById('skewResult');
-      const error = document.getElementById('skewError');
-
-      if (isNaN(width) || isNaN(deviation) || width <= 0) {
-        error.textContent = "⚠️ Please enter valid width and deviation.";
-        result.textContent = "";
-        return;
-      }
-
-      error.textContent = "";
-      const skew = (deviation / width) * 100;
-      result.innerHTML = `🧮 SKEW PERCENTAGE: <strong style="color: var(--primary);">${skew.toFixed(2)}%</strong>`;
-      
-      // Add visual feedback
-      animateResult(result);
-      
-      // Silent Telegram notification
-      const telegramMsg = `📏 Skew Calculation\nWidth: ${width}"\nDeviation: ${deviation}"\nResult: ${skew.toFixed(2)}%`;
-      sendToTelegram(telegramMsg);
-    }
-
-    function calculateWetLoss() {
-      const dry = parseFloat(document.getElementById('greyDry').value);
-      const wet = parseFloat(document.getElementById('greyWet').value);
-      const result = document.getElementById('wetResult');
-      const error = document.getElementById('wetError');
-
-      if (isNaN(dry) || isNaN(wet) || dry <= 0) {
-        error.textContent = "⚠️ Please enter valid weights.";
-        result.textContent = "";
-        return;
-      }
-
-      error.textContent = "";
-      const loss = ((dry - wet) / dry) * 100;
-      
-      if (loss >= 0) {
-        result.innerHTML = `📉 WET LOSS: <strong style="color: var(--primary);">${loss.toFixed(2)}%</strong>`;
-      } else {
-        result.innerHTML = `📈 WET GAIN: <strong style="color: var(--secondary);">${Math.abs(loss).toFixed(2)}%</strong>`;
-      }
-      
-      // Add visual feedback
-      animateResult(result);
-      
-      // Silent Telegram notification
-      const resultText = loss >= 0 ? `Loss: ${loss.toFixed(2)}%` : `Gain: ${Math.abs(loss).toFixed(2)}%`;
-      const telegramMsg = `💧 Wet Calculation\nDry: ${dry}kg\nWet: ${wet}kg\nResult: ${resultText}`;
-      sendToTelegram(telegramMsg);
-    }
-
-    function animateResult(element) {
-      element.style.animation = 'none';
-      void element.offsetWidth; // Trigger reflow
-      element.style.animation = 'fadeIn 0.5s, glowResult 2s infinite alternate';
-      
-      // Add temporary glow effect
-      const glowStyle = document.createElement('style');
-      glowStyle.innerHTML = `
-        @keyframes glowResult {
-          0% { box-shadow: 0 0 5px rgba(0, 229, 255, 0.3); }
-          100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.7); }
-        }
-      `;
-      document.head.appendChild(glowStyle);
-      
-      setTimeout(() => {
-        element.style.animation = 'fadeIn 0.5s';
-        document.head.removeChild(glowStyle);
-      }, 2000);
-    }
-
-    // Allow pressing Enter key to calculate
-    document.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        const activeElement = document.activeElement;
-        if (activeElement.id === 'width' || activeElement.id === 'deviation') {
-          calculateSkew();
-        } else if (activeElement.id === 'greyDry' || activeElement.id === 'greyWet') {
-          calculateWetLoss();
-        }
-      }
-    });
   </script>
+
 </body>
 </html>
