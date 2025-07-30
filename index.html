@@ -1,795 +1,995 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>जमीन खरीदें / बेचें / पूछताछ</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Banda Ki Seva - Home</title>
+  <link rel="manifest" href="manifest-v2.json" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --buy-color: #FFD700; /* Golden */
-      --sell-color: #FF4500; /* OrangeRed */
-      --inquiry-color: #1E90FF; /* DodgerBlue */
-      --secondary-color: #0F0F1A;
-      --dark-color: #E6E6FA;
-      --space-blue: #0a0a2a;
-      --star-color: rgba(255, 255, 255, 0.8);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
     
     body {
-      font-family: 'Orbitron', 'Arial', sans-serif;
-      background: var(--space-blue);
-      color: var(--dark-color);
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
+      background: linear-gradient(135deg, #000428, #004e92);
+      color: #fff;
       min-height: 100vh;
-    }
-
-    @font-face {
-      font-family: 'Orbitron';
-      src: url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+      overflow-x: hidden;
+      position: relative;
+      touch-action: manipulation;
     }
     
-    /* Space Background with Stars */
-    .space-bg {
+    /* Optimized Animated Background for Mobile */
+    .live-glow-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(255, 255, 0, 0.1) 0%, transparent 40%);
+      animation: glowMove 20s linear infinite;
       z-index: -2;
-      background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-      overflow: hidden;
+      will-change: background-position;
     }
     
-    /* Floating particles (stars) */
+    @keyframes glowMove {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 100% 100%; }
+    }
+    
+    /* Lightweight Particles for Mobile */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
     .particle {
       position: absolute;
-      background: var(--star-color);
       border-radius: 50%;
-      pointer-events: none;
-      z-index: -1;
+      background: rgba(0, 255, 255, 0.5);
+      box-shadow: 0 0 10px #00ffff;
+      animation: floatParticle linear infinite;
+      will-change: transform;
     }
     
-    /* Shooting stars */
-    .shooting-star {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: -1;
+    @keyframes floatParticle {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
     }
     
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      position: relative;
-      z-index: 1;
-    }
-    
-    header {
-      background: rgba(15, 15, 26, 0.8);
-      color: var(--buy-color);
-      padding: 20px 0;
-      text-align: center;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    header::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--buy-color), transparent);
-    }
-    
-    h1 {
-      margin: 0;
-      font-size: 32px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      text-shadow: 0 0 10px var(--buy-color), 0 0 20px var(--buy-color);
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-    
-    @keyframes glow {
-      from { text-shadow: 0 0 5px var(--buy-color), 0 0 10px var(--buy-color); }
-      to { text-shadow: 0 0 10px var(--buy-color), 0 0 20px var(--buy-color), 0 0 30px var(--buy-color); }
-    }
-    
-    .form-selector {
+    /* Optimized Logo Styling */
+    .logo-wrapper {
       display: flex;
       justify-content: center;
-      margin-bottom: 30px;
-      gap: 15px;
-      perspective: 1000px;
+      padding: 15px 0 10px;
     }
     
-    .form-tab {
-      padding: 12px 25px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.4s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      position: relative;
-      overflow: hidden;
-      transform-style: preserve-3d;
-      border: 1px solid transparent;
+    .home-logo {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+      animation: logoFloat 6s ease-in-out infinite;
+      transition: all 0.5s;
+      object-fit: contain;
     }
     
-    .form-tab::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: 0.5s;
+    .home-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 1);
     }
     
-    .form-tab:hover::before {
-      left: 100%;
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
     
-    .form-tab.active {
-      transform: translateY(-5px) rotateX(10deg);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-    
-    .buy-tab {
-      background: rgba(255, 215, 0, 0.15);
-      color: var(--buy-color);
-      border-color: var(--buy-color);
-    }
-    
-    .sell-tab {
-      background: rgba(255, 69, 0, 0.15);
-      color: var(--sell-color);
-      border-color: var(--sell-color);
-    }
-    
-    .inquiry-tab {
-      background: rgba(30, 144, 255, 0.15);
-      color: var(--inquiry-color);
-      border-color: var(--inquiry-color);
-    }
-    
-    .form-container {
-      display: none;
-      animation: fadeIn 0.8s ease;
-      perspective: 1000px;
-    }
-    
-    .form-container.active {
-      display: block;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px) rotateX(-15deg); }
-      to { opacity: 1; transform: translateY(0) rotateX(0); }
-    }
-    
-    /* Form Styling */
-    form {
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      max-width: 600px;
-      margin: 0 auto;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transform-style: preserve-3d;
-      transition: transform 0.5s;
-      position: relative;
-      overflow: hidden;
-      background: rgba(15, 15, 26, 0.6);
-    }
-    
-    form:hover {
-      transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
-    }
-    
-    form::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, 
-        var(--buy-color), 
-        var(--sell-color), 
-        var(--inquiry-color), 
-        var(--buy-color));
-      background-size: 400%;
-      z-index: -1;
-      border-radius: 16px;
-      opacity: 0;
-      transition: 0.5s;
-      animation: animate 20s linear infinite;
-    }
-    
-    form:hover::before {
-      opacity: 0.2;
-      filter: blur(10px);
-    }
-    
-    @keyframes animate {
-      0% { background-position: 0 0; }
-      50% { background-position: 300% 0; }
-      100% { background-position: 0 0; }
-    }
-    
-    .form-title {
+    /* Mobile-Friendly Header */
+    header {
       text-align: center;
-      padding-bottom: 15px;
-      margin-top: 0;
-      font-size: 24px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      position: relative;
-      text-shadow: 0 0 5px currentColor;
+      padding: 0 15px 20px;
     }
     
-    .form-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 25%;
-      width: 50%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, currentColor, transparent);
+    .glow-heading {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ccff, 0 0 30px #0099ff;
+      animation: glowPulse 2s ease-in-out infinite;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
     }
     
-    .buy-form .form-title {
-      color: var(--buy-color);
-      animation: textGlow 3s ease infinite;
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ccff, 0 0 30px #0099ff; }
+      50% { text-shadow: 0 0 15px #00ffff, 0 0 25px #00ccff, 0 0 35px #0099ff; }
     }
     
-    .sell-form .form-title {
-      color: var(--sell-color);
-      animation: textGlow 3s ease infinite;
+    header p {
+      font-size: 1rem;
+      color: #e0f7fa;
+      text-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
+      max-width: 90%;
+      margin: 0 auto;
+      line-height: 1.4;
     }
     
-    .inquiry-form .form-title {
-      color: var(--inquiry-color);
-      animation: textGlow 3s ease infinite;
+    /* Mobile-Optimized Navigation */
+    nav {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      padding: 15px;
+      margin: 0 auto 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      max-width: 95%;
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      animation: navGlow 4s infinite alternate;
     }
     
-    @keyframes textGlow {
-      0%, 100% { text-shadow: 0 0 5px currentColor; }
-      50% { text-shadow: 0 0 15px currentColor; }
+    @keyframes navGlow {
+      0% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+      100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
     }
     
-    .form-group {
-      margin-bottom: 25px;
-      position: relative;
-    }
-    
-    .form-group::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--buy-color), var(--inquiry-color));
-      transition: width 0.5s ease;
-    }
-    
-    .form-group:hover::after {
-      width: 100%;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: var(--dark-color);
-      transition: all 0.3s;
-    }
-    
-    .form-group:hover label {
-      color: var(--buy-color);
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-    }
-    
-    input, textarea, select {
-      width: 100%;
-      padding: 12px 15px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      font-size: 16px;
-      transition: all 0.4s;
-      background: rgba(0, 0, 0, 0.3);
-      color: var(--dark-color);
-      font-family: 'Arial', sans-serif;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-    }
-    
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: var(--buy-color);
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3), inset 0 1px 3px rgba(0,0,0,0.2);
-      background: rgba(0, 0, 0, 0.5);
-    }
-    
-    /* Typing animation for textarea */
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-      position: relative;
-    }
-    
-    textarea:focus {
-      background: linear-gradient(to bottom, 
-        rgba(0, 0, 0, 0.5) 0%, 
-        rgba(0, 0, 0, 0.5) calc(100% - 2px), 
-        var(--buy-color) calc(100% - 2px), 
-        var(--buy-color) 100%);
-      background-size: 100% 100%;
-      animation: typingEffect 1s steps(1) infinite;
-    }
-    
-    @keyframes typingEffect {
-      0% { background-size: 100% 100%; }
-      50% { background-size: 100% 102%; }
-    }
-    
-    button {
-      color: #000;
-      padding: 14px 25px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 700;
-      transition: all 0.4s;
-      display: block;
-      width: 100%;
+    nav a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 5px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      box-shadow: 0 0 5px #00ffff80, inset 0 0 3px #00ffff33;
+      text-shadow: 0 0 5px #00ffff;
+      transition: all 0.2s ease-in-out;
       position: relative;
       overflow: hidden;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      z-index: 1;
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      text-align: center;
     }
     
-    button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(45deg, 
-        var(--buy-color), 
-        #ffcc00, 
-        var(--buy-color));
-      background-size: 200% 200%;
-      z-index: -1;
-      transition: 0.5s;
-      animation: gradientShift 3s ease infinite;
-    }
-    
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
-    }
-    
-    button:active {
-      transform: translateY(0);
-    }
-    
-    button::after {
+    nav a::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: 0.5s;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+      transition: 0.3s;
     }
     
-    button:hover::after {
+    nav a:hover::before {
       left: 100%;
     }
     
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    nav a:hover, nav a.active {
+      background: linear-gradient(145deg, #00ffff, #00aaff);
+      color: #000;
+      box-shadow: 0 0 15px #00ffff;
+      transform: translateY(-3px);
+      text-shadow: none;
     }
     
-    .required-field::after {
-      content: " *";
-      color: var(--sell-color);
+    /* Content Area for Mobile */
+    .content {
+      padding: 15px;
+      text-align: center;
+      max-width: 95%;
+      margin: 0 auto;
     }
     
-    /* Cursor Follower */
-    .cursor-follower {
-      position: fixed;
-      width: 30px;
-      height: 30px;
-      border: 2px solid var(--buy-color);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      mix-blend-mode: screen;
-      z-index: 9999;
-      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
-      box-shadow: 0 0 15px var(--buy-color);
+    .content h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #fff;
+      text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
     }
     
-    .cursor-follower.active {
-      width: 60px;
-      height: 60px;
-      background: rgba(255, 215, 0, 0.2);
+    .content p {
+      font-size: 0.9rem;
+      color: #e0f7fa;
+      margin-bottom: 20px;
     }
     
-    /* Ripple Effect */
-    .ripple {
+    .glow-timer {
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 20px auto;
+      padding: 12px 20px;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid #00ffff80;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #00ffff88, inset 0 0 5px #00ffff44;
+      width: fit-content;
+      animation: glowPulse 2s infinite;
+    }
+    
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 10px #00ffff88, inset 0 0 5px #00ffff44; }
+      50% { box-shadow: 0 0 20px #00ffffaa, inset 0 0 8px #00ffff66; }
+      100% { box-shadow: 0 0 10px #00ffff88, inset 0 0 5px #00ffff44; }
+    }
+    
+    .download-section {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      backdrop-filter: blur(3px);
+    }
+    
+    .download-section h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    
+    .download-section p {
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+    
+    .download-btn {
+      margin-top: 15px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      color: white;
+      background: linear-gradient(45deg, #00ffff, #00aaff);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+      transition: all 0.2s;
+      font-weight: bold;
+      display: inline-block;
+      width: 100%;
+      max-width: 250px;
+    }
+    
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    }
+    
+    .msg {
+      margin-top: 15px;
+      color: #00ff99;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(0, 255, 153, 0.3);
+      font-size: 0.9rem;
+    }
+    
+    /* Mobile Footer */
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      padding: 15px;
+      color: #aaa;
+      font-size: 0.8rem;
+      border-top: 1px solid #333;
+      position: relative;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(3px);
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    }
+    
+    footer::before {
+      content: '';
       position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 215, 0, 0.6);
-      transform: scale(0);
-      pointer-events: none;
-      animation: ripple 0.6s linear;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #00ffff, #ff00cc, transparent);
+      box-shadow: 0 0 10px #00ffff55;
     }
     
-    @keyframes ripple {
-      to {
-        transform: scale(4);
-        opacity: 0;
+    /* Mobile Admin Login Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      box-sizing: border-box;
+    }
+    
+    .modal-content {
+      background: linear-gradient(145deg, #0f0c29, #302b63);
+      border-radius: 15px;
+      padding: 25px;
+      width: 100%;
+      max-width: 350px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+      border: 1px solid #00ffff;
+      position: relative;
+      animation: modalAppear 0.3s ease-out;
+    }
+    
+    @keyframes modalAppear {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      color: #aaa;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    
+    .close:hover {
+      color: #fff;
+    }
+    
+    .admin-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .admin-form h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+      font-size: 1.5rem;
+    }
+    
+    .input-group {
+      position: relative;
+    }
+    
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px 12px 40px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #00ffff;
+      color: #fff;
+      font-size: 1rem;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    }
+    
+    .input-group i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #00ffff;
+      font-size: 18px;
+    }
+    
+    .admin-form button {
+      padding: 12px;
+      border-radius: 10px;
+      background: linear-gradient(to right, #00ffff, #00aaff);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    }
+    
+    .admin-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    }
+    
+    /* Mobile Admin Panel */
+    #adminPanel {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 10, 20, 0.95);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 15px;
+      box-sizing: border-box;
+    }
+    
+    .admin-header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      background: rgba(0, 20, 40, 0.7);
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      border: 1px solid #00ffff;
+    }
+    
+    .admin-title {
+      font-size: 1.5rem;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      text-align: center;
+    }
+    
+    .logout-btn {
+      padding: 10px 15px;
+      background: linear-gradient(to right, #ff4081, #ff00cc);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 0 15px rgba(255, 0, 204, 0.4);
+      font-size: 0.9rem;
+    }
+    
+    .logout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(255, 0, 204, 0.6);
+    }
+    
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .admin-card {
+      background: rgba(0, 20, 40, 0.6);
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      transition: all 0.2s ease;
+    }
+    
+    .admin-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    }
+    
+    .card-icon {
+      font-size: 20px;
+      margin-right: 10px;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+    }
+    
+    .card-title {
+      font-size: 1.2rem;
+      color: #00ffff;
+    }
+    
+    .card-content {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #ffcc00;
+      text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+      margin: 8px 0;
+    }
+    
+    .stat-label {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, #00ffff, #00aaff);
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+    }
+    
+    .chart-container {
+      height: 150px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      margin-top: 15px;
+      display: flex;
+      align-items: flex-end;
+      padding: 8px;
+    }
+    
+    .chart-bar {
+      flex: 1;
+      background: linear-gradient(to top, #00ffff, #00aaff);
+      margin: 0 4px;
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      box-shadow: 0 0 5px rgba(0, 255, 255, 0.2);
+    }
+    
+    .chart-label {
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 10px;
+      color: #aaa;
+    }
+    
+    .recent-orders {
+      background: rgba(0, 20, 40, 0.6);
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      margin-bottom: 25px;
+    }
+    
+    .orders-list {
+      margin-top: 15px;
+    }
+    
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      margin: 8px 0;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+    
+    .order-item:hover {
+      background: rgba(0, 0, 0, 0.5);
+      transform: translateX(3px);
+    }
+    
+    .order-info {
+      flex: 1;
+      font-size: 0.9rem;
+    }
+    
+    .order-info div:first-child {
+      font-weight: bold;
+    }
+    
+    .order-status {
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      align-self: center;
+    }
+    
+    .status-pending {
+      background: rgba(255, 204, 0, 0.2);
+      color: #ffcc00;
+    }
+    
+    .status-completed {
+      background: rgba(0, 255, 153, 0.2);
+      color: #00ff99;
+    }
+    
+    .status-processing {
+      background: rgba(0, 153, 255, 0.2);
+      color: #00aaff;
+    }
+    
+    /* Tablet and Desktop Styles */
+    @media (min-width: 600px) {
+      .home-logo {
+        height: 120px;
+        width: 120px;
+      }
+      
+      .glow-heading {
+        font-size: 2.5rem;
+      }
+      
+      header p {
+        font-size: 1.1rem;
+      }
+      
+      nav {
+        grid-template-columns: repeat(3, 1fr);
+        padding: 20px;
+      }
+      
+      nav a {
+        font-size: 15px;
+        padding: 12px 8px;
+      }
+      
+      .content h2 {
+        font-size: 1.8rem;
+      }
+      
+      .content p {
+        font-size: 1rem;
+      }
+      
+      .admin-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
     
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .form-selector {
-        flex-direction: column;
-        align-items: center;
+    @media (min-width: 900px) {
+      .home-logo {
+        height: 140px;
+        width: 140px;
       }
       
-      .form-tab {
-        width: 100%;
-        max-width: 300px;
-        text-align: center;
+      nav {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1000px;
       }
       
-      h1 {
-        font-size: 24px;
+      nav a {
+        font-size: 16px;
+        padding: 14px 10px;
+      }
+      
+      .admin-grid {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- Space Background -->
-  <div class="space-bg" id="spaceBg"></div>
+  <div class="live-glow-bg"></div>
+  <div class="particles" id="particles"></div>
   
-  <!-- Floating Particles -->
-  <div id="particles"></div>
+  <div class="logo-wrapper">
+    <img src="logo.png" alt="Banda Ki Seva Logo" class="home-logo">
+  </div>
   
-  <!-- Cursor Follower -->
-  <div class="cursor-follower" id="cursorFollower"></div>
-
   <header>
-    <div class="container">
-      <h1>जमीन खरीदें / बेचें / पूछताछ</h1>
-    </div>
+    <h1 class="glow-heading">📦 Banda Ki Seva</h1>
+    <p>1 Day Courier | Digital Seva | Local Delivery</p>
   </header>
+  
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="index.html" class="active">🏠 होम</a>
+    <a href="digital.html">🖥️ डिजिटल</a>
+    <a href="kirana.html">🛒 किराना</a>
+    <a href="books.html">📚 Books</a>
+    <a href="job.html">💻 जॉब</a>
+    <a href="courier.html">🚚 Courier</a>
+    <a href="track.html">🔍 Track</a>
+    <a href="vip.html">👑 VIP</a>
+    <a href="refer.html">🎁 Refer</a>
+    <a href="contact.html">📞 Contact</a>
+    <a href="about.html">ℹ️ About</a>
+    <a href="register.html">📝 Register</a>
+    <a href="#" onclick="openAdmin()">🛡️ Admin</a>
+  </nav>
 
-  <div class="container">
-    <div class="form-selector">
-      <div class="form-tab buy-tab active" onclick="showForm('buy')">जमीन खरीदें</div>
-      <div class="form-tab sell-tab" onclick="showForm('sell')">जमीन बेचें</div>
-      <div class="form-tab inquiry-tab" onclick="showForm('inquiry')">पूछताछ करें</div>
+  <!-- Main Content -->
+  <div class="content">
+    <h2>🙏 आपका स्वागत है!</h2>
+    <p>हमारी सेवाओं का लाभ उठाने के लिए ऐप डाउनलोड करें।</p>
+
+    <div class="glow-timer">
+      ⏳ <span id="countdown">लोड हो रहा है...</span>
     </div>
 
-    <!-- Buy Land Form -->
-    <div id="buy-form" class="form-container buy-form active">
-      <form onsubmit="sendToWhatsApp('buy'); return false;">
-        <h3 class="form-title">जमीन खरीदने के लिए फॉर्म</h3>
-        
-        <div class="form-group">
-          <label for="buy-name" class="required-field">आपका नाम</label>
-          <input type="text" id="buy-name" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="buy-mobile" class="required-field">मोबाइल नंबर</label>
-          <input type="tel" id="buy-mobile" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="buy-location" class="required-field">आप कहाँ जमीन खरीदना चाहते हैं?</label>
-          <input type="text" id="buy-location" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="buy-area" class="required-field">जमीन का क्षेत्रफल (वर्ग फुट/एकड़)</label>
-          <input type="text" id="buy-area" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="buy-budget" class="required-field">आपका बजट</label>
-          <input type="text" id="buy-budget" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="buy-purpose">जमीन का उद्देश्य (आवासीय/वाणिज्यिक/कृषि)</label>
-          <input type="text" id="buy-purpose">
-        </div>
-        
-        <div class="form-group">
-          <label for="buy-details">अतिरिक्त जानकारी</label>
-          <textarea id="buy-details" rows="4"></textarea>
-        </div>
-        
-        <button type="submit">जमीन खरीदने के लिए संपर्क करें</button>
-      </form>
+    <div class="download-section">
+      <h3>📲 हमारा मोबाइल ऐप डाउनलोड करें</h3>
+      <p>Banda Ki Seva App में सारी सेवाएं एक जगह!</p>
+      <button class="download-btn" onclick="downloadApp()">⬇️ Download APK</button>
+      <div class="msg" id="msg"></div>
     </div>
+  </div>
 
-    <!-- Sell Land Form -->
-    <div id="sell-form" class="form-container sell-form">
-      <form onsubmit="sendToWhatsApp('sell'); return false;">
-        <h3 class="form-title">जमीन बेचने के लिए फॉर्म</h3>
-        
-        <div class="form-group">
-          <label for="sell-name" class="required-field">आपका नाम</label>
-          <input type="text" id="sell-name" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="sell-mobile" class="required-field">मोबाइल नंबर</label>
-          <input type="tel" id="sell-mobile" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="sell-location" class="required-field">जमीन का स्थान</label>
-          <input type="text" id="sell-location" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="sell-area" class="required-field">जमीन का क्षेत्रफल (वर्ग फुट/एकड़)</label>
-          <input type="text" id="sell-area" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="sell-price" class="required-field">अनुमानित मूल्य</label>
-          <input type="text" id="sell-price" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="sell-type">जमीन का प्रकार (आवासीय/वाणिज्यिक/कृषि)</label>
-          <input type="text" id="sell-type">
-        </div>
-        
-        <div class="form-group">
-          <label for="sell-details">अतिरिक्त जानकारी (कानूनी दस्तावेज आदि)</label>
-          <textarea id="sell-details" rows="4"></textarea>
-        </div>
-        
-        <button type="submit">जमीन बेचने के लिए संपर्क करें</button>
-      </form>
-    </div>
+  <footer>
+    &copy; 2025 Banda Ki Seva | Powered by Siddhant Dhuriya
+  </footer>
 
-    <!-- Inquiry Form -->
-    <div id="inquiry-form" class="form-container inquiry-form">
-      <form onsubmit="sendToWhatsApp('inquiry'); return false;">
-        <h3 class="form-title">पूछताछ फॉर्म</h3>
-        
-        <div class="form-group">
-          <label for="inquiry-name" class="required-field">आपका नाम</label>
-          <input type="text" id="inquiry-name" required>
+  <!-- Admin Login Modal -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAdmin()">&times;</span>
+      <h2>Admin Login</h2>
+      <form class="admin-form" onsubmit="adminLogin(event)">
+        <div class="input-group">
+          <i>👤</i>
+          <input type="text" placeholder="Username" required>
         </div>
-        
-        <div class="form-group">
-          <label for="inquiry-mobile" class="required-field">मोबाइल नंबर</label>
-          <input type="tel" id="inquiry-mobile" required>
+        <div class="input-group">
+          <i>🔒</i>
+          <input type="password" placeholder="Password" required>
         </div>
-        
-        <div class="form-group">
-          <label for="inquiry-subject">विषय</label>
-          <input type="text" id="inquiry-subject">
-        </div>
-        
-        <div class="form-group">
-          <label for="inquiry-message" class="required-field">आपका संदेश</label>
-          <textarea id="inquiry-message" rows="4" required></textarea>
-        </div>
-        
-        <button type="submit">पूछताछ भेजें</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   </div>
 
+  <!-- Stylish Admin Panel -->
+  <div id="adminPanel">
+    <div class="admin-header">
+      <div class="admin-title">🚀 Banda Ki Seva - Admin Dashboard</div>
+      <button class="logout-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+    
+    <div class="admin-grid">
+      <div class="admin-card">
+        <div class="card-header">
+          <div class="card-icon">👤</div>
+          <div class="card-title">कुल यूज़र</div>
+        </div>
+        <div class="card-content">
+          <div class="stat-number">1,248</div>
+          <div class="stat-label">पिछले 30 दिनों में 12% वृद्धि</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 75%"></div>
+          </div>
+          <div class="stat-label">लक्ष्य: 1,500 यूज़र</div>
+        </div>
+      </div>
+      
+      <div class="admin-card">
+        <div class="card-header">
+          <div class="card-icon">📦</div>
+          <div class="card-title">आज की डिलीवरी</div>
+          </div>
+        <div class="card-content">
+          <div class="stat-number">42</div>
+          <div class="stat-label">17 पेंडिंग ऑर्डर</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 60%"></div>
+          </div>
+          <div class="stat-label">कुल ऑर्डर: 70</div>
+        </div>
+      </div>
+      
+      <div class="admin-card">
+        <div class="card-header">
+          <div class="card-icon">💰</div>
+          <div class="card-title">आज की कमाई</div>
+        </div>
+        <div class="card-content">
+          <div class="stat-number">₹8,560</div>
+          <div class="stat-label">पिछले सप्ताह से 18% वृद्धि</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 45%"></div>
+          </div>
+          <div class="stat-label">मासिक लक्ष्य: ₹250,000</div>
+        </div>
+      </div>
+      
+      <div class="admin-card">
+        <div class="card-header">
+          <div class="card-icon">📊</div>
+          <div class="card-title">सेवा विश्लेषण</div>
+        </div>
+        <div class="card-content">
+          <div class="chart-container">
+            <div class="chart-bar" style="height: 70%"><div class="chart-label">Courier</div></div>
+            <div class="chart-bar" style="height: 40%"><div class="chart-label">Kirana</div></div>
+            <div class="chart-bar" style="height: 85%"><div class="chart-label">Digital</div></div>
+            <div class="chart-bar" style="height: 60%"><div class="chart-label">VIP</div></div>
+            <div class="chart-bar" style="height: 30%"><div class="chart-label">Books</div></div>
+          </div>
+          <div class="stat-label">सर्विस यूज़ (प्रतिशत में)</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="recent-orders">
+      <div class="card-header">
+        <div class="card-icon">📝</div>
+        <div class="card-title">हाल के आदेश</div>
+      </div>
+      
+      <div class="orders-list">
+        <div class="order-item">
+          <div class="order-info">
+            <div>#ORD00125 - Rajesh Kumar</div>
+            <div class="stat-label">Courier: Delhi to Mumbai</div>
+          </div>
+          <div class="order-status status-pending">Pending</div>
+        </div>
+        
+        <div class="order-item">
+          <div class="order-info">
+            <div>#ORD00124 - Priya Sharma</div>
+            <div class="stat-label">Kirana: ₹1,250</div>
+          </div>
+          <div class="order-status status-processing">Processing</div>
+        </div>
+        
+        <div class="order-item">
+          <div class="order-info">
+            <div>#ORD00123 - Vikram Singh</div>
+            <div class="stat-label">Digital Seva: PAN Card</div>
+          </div>
+          <div class="order-status status-completed">Completed</div>
+        </div>
+        
+        <div class="order-item">
+          <div class="order-info">
+            <div>#ORD00122 - Anjali Patel</div>
+            <div class="stat-label">VIP: Document Collection</div>
+          </div>
+          <div class="order-status status-completed">Completed</div>
+        </div>
+        
+        <div class="order-item">
+          <div class="order-info">
+            <div>#ORD00121 - Mohan Gupta</div>
+            <div class="stat-label">Books: 5 items</div>
+          </div>
+          <div class="order-status status-pending">Pending</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Show selected form
-    function showForm(formType) {
-      // Hide all forms
-      document.querySelectorAll('.form-container').forEach(form => {
-        form.classList.remove('active');
-      });
+    // Create optimized floating particles for mobile
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = window.innerWidth < 600 ? 20 : 30;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
       
-      // Deactivate all tabs
-      document.querySelectorAll('.form-tab').forEach(tab => {
-        tab.classList.remove('active');
-      });
+      // Random position
+      const left = Math.random() * 100;
+      const top = Math.random() * 100;
       
-      // Show selected form
-      document.getElementById(`${formType}-form`).classList.add('active');
+      // Random size (smaller for mobile)
+      const size = Math.random() * 4 + 2;
       
-      // Activate selected tab
-      event.currentTarget.classList.add('active');
+      // Random animation duration
+      const duration = Math.random() * 15 + 10;
+      
+      particle.style.left = `${left}%`;
+      particle.style.top = `${top}%`;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.animationDuration = `${duration}s`;
+      
+      particlesContainer.appendChild(particle);
     }
     
-    // Send to WhatsApp
-    function sendToWhatsApp(formType) {
-      let msg = '';
-      const phoneNumber = '916351598832';
-      
-      if (formType === 'buy') {
-        const name = document.getElementById("buy-name").value;
-        const mobile = document.getElementById("buy-mobile").value;
-        const location = document.getElementById("buy-location").value;
-        const area = document.getElementById("buy-area").value;
-        const budget = document.getElementById("buy-budget").value;
-        const purpose = document.getElementById("buy-purpose").value;
-        const details = document.getElementById("buy-details").value;
-        
-        msg = `जमीन खरीदने के लिए संपर्क:\n\n👤 नाम: ${name}\n📞 मोबाइल: ${mobile}\n📍 स्थान: ${location}\n📏 क्षेत्रफल: ${area}\n💰 बजट: ${budget}`;
-        
-        if (purpose) msg += `\n🎯 उद्देश्य: ${purpose}`;
-        if (details) msg += `\n📝 जानकारी: ${details}`;
-        
-      } else if (formType === 'sell') {
-        const name = document.getElementById("sell-name").value;
-        const mobile = document.getElementById("sell-mobile").value;
-        const location = document.getElementById("sell-location").value;
-        const area = document.getElementById("sell-area").value;
-        const price = document.getElementById("sell-price").value;
-        const type = document.getElementById("sell-type").value;
-        const details = document.getElementById("sell-details").value;
-        
-        msg = `जमीन बेचने के लिए संपर्क:\n\n👤 नाम: ${name}\n📞 मोबाइल: ${mobile}\n📍 स्थान: ${location}\n📏 क्षेत्रफल: ${area}\n💰 मूल्य: ${price}`;
-        
-        if (type) msg += `\n🏠 प्रकार: ${type}`;
-        if (details) msg += `\n📝 जानकारी: ${details}`;
-        
-      } else if (formType === 'inquiry') {
-        const name = document.getElementById("inquiry-name").value;
-        const mobile = document.getElementById("inquiry-mobile").value;
-        const subject = document.getElementById("inquiry-subject").value;
-        const message = document.getElementById("inquiry-message").value;
-        
-        msg = `पूछताछ:\n\n👤 नाम: ${name}\n📞 मोबाइल: ${mobile}`;
-        
-        if (subject) msg += `\n📌 विषय: ${subject}`;
-        msg += `\n📝 संदेश: ${message}`;
-      }
-      
-      const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`;
-      window.open(whatsappURL, "_blank");
-    }
-
-    // Create floating particles (stars)
-    function createParticles() {
-      const particlesContainer = document.getElementById('particles');
-      const particleCount = 100;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Random properties
-        const size = Math.random() * 3 + 1;
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        const opacity = Math.random() * 0.8 + 0.2;
-        const duration = Math.random() * 20 + 10;
-        const delay = Math.random() * 20;
-        
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${posX}%`;
-        particle.style.top = `${posY}%`;
-        particle.style.opacity = opacity;
-        particle.style.animation = `twinkle ${duration}s ease-in-out ${delay}s infinite`;
-        
-        particlesContainer.appendChild(particle);
-      }
-      
-      // Add shooting stars occasionally
-      setInterval(createShootingStar, 3000);
+    // Admin modal functions
+    function openAdmin() {
+      document.getElementById('adminModal').style.display = 'flex';
     }
     
-    // Create shooting stars
-    function createShootingStar() {
-      const shootingStar = document.createElement('div');
-      shootingStar.classList.add('shooting-star');
-      
-      const startX = Math.random() * 100;
-      const startY = Math.random() * 30;
-      const duration = Math.random() * 2 + 1;
-      
-      shootingStar.style.left = `${startX}%`;
-      shootingStar.style.top = `${startY}%`;
-      shootingStar.style.animation = `shoot ${duration}s linear`;
-      
-      document.body.appendChild(shootingStar);
-      
-      setTimeout(() => {
-        shootingStar.remove();
-      }, duration * 1000);
+    function closeAdmin() {
+      document.getElementById('adminModal').style.display = 'none';
     }
     
-    // Cursor follower effect
-    const cursorFollower = document.getElementById('cursorFollower');
+    function adminLogin(event) {
+      event.preventDefault();
+      // For demo purposes, we'll just show the admin panel
+      document.getElementById('adminModal').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+    }
     
-    document.addEventListener('mousemove', (e) => {
-      cursorFollower.style.left = `${e.clientX}px`;
-      cursorFollower.style.top = `${e.clientY}px`;
-      
-      // Scale up when hovering interactive elements
-      const target = e.target;
-      if (target.tagName === 'BUTTON' || target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.tagName === 'A' || target.classList.contains('form-tab')) {
-        cursorFollower.classList.add('active');
-      } else {
-        cursorFollower.classList.remove('active');
+    function logoutAdmin() {
+      document.getElementById('adminPanel').style.display = 'none';
+    }
+    
+    // Close modal if clicked outside
+    window.addEventListener('click', (event) => {
+      const modal = document.getElementById('adminModal');
+      if (event.target === modal) {
+        closeAdmin();
       }
     });
     
-    // Ripple effect
-    document.addEventListener('click', (e) => {
-      const ripple = document.createElement('div');
-      ripple.classList.add('ripple');
-      ripple.style.left = `${e.clientX}px`;
-      ripple.style.top = `${e.clientY}px`;
-      document.body.appendChild(ripple);
-      
+    function downloadApp() {
+      const apkUrl = "https://drive.google.com/uc?export=download&id=1Dv_I0ylLJYdGzECBEQjNjPutHlefbKyq";
+      document.getElementById("msg").textContent = "⏳ Download शुरू हो रहा है...";
       setTimeout(() => {
-        ripple.remove();
-      }, 600);
+        document.getElementById("msg").textContent = "✅ Download शुरू हो गया! अगर नहीं हुआ तो कृपया दोबारा क्लिक करें।";
+        window.location.href = apkUrl;
+      }, 1000);
+    }
+    
+    // Countdown Logic
+    const countdownElement = document.getElementById("countdown");
+    const targetDate = new Date("2025-07-10T00:00:00").getTime();
+    
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+    
+      if (distance <= 0) {
+        countdownElement.innerHTML = "✅ समय समाप्त हो गया!";
+        return;
+      }
+    
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+      countdownElement.innerHTML = `${days} दिन ${hours} घंटे ${minutes} मिनट ${seconds} सेकंड शेष`;
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+    
+    // Simulate PWA functionality
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+    
+    // Prevent zooming on mobile
+    document.addEventListener('gesturestart', function(e) {
+      e.preventDefault();
     });
     
-    // Initialize effects when page loads
-    window.onload = function() {
-      createParticles();
-      
-      // Add animation keyframes dynamically
-      const style = document.createElement('style');
-      style.innerHTML = `
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.2; }
-          50% { opacity: 1; }
-        }
-        
-        @keyframes shoot {
-          0% { transform: translate(0, 0); opacity: 0; }
-          10% { opacity: 1; }
-          100% { transform: translate(${Math.random() * 500 - 250}px, ${Math.random() * 200 + 100}px); opacity: 0; }
-        }
-      `;
-      document.head.appendChild(style);
-    };
+    // Touch optimization
+    document.addEventListener('touchstart', function() {}, true);
   </script>
-
 </body>
 </html>
