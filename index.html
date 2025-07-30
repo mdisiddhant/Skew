@@ -6,41 +6,106 @@
   <title>जमीन खरीदें / बेचें / पूछताछ</title>
   <style>
     :root {
-      --buy-color: #27ae60;
-      --sell-color: #e74c3c;
-      --inquiry-color: #3498db;
-      --secondary-color: #2c3e50;
-      --light-color: #f5f5f5;
-      --dark-color: #333;
+      --buy-color: #FFD700; /* Golden */
+      --sell-color: #FF4500; /* OrangeRed */
+      --inquiry-color: #1E90FF; /* DodgerBlue */
+      --secondary-color: #0F0F1A;
+      --dark-color: #E6E6FA;
+      --space-blue: #0a0a2a;
+      --star-color: rgba(255, 255, 255, 0.8);
     }
     
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f9f9f9;
-      padding: 0;
-      margin: 0;
+      font-family: 'Orbitron', 'Arial', sans-serif;
+      background: var(--space-blue);
       color: var(--dark-color);
       line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    }
+    
+    /* Space Background with Stars */
+    .space-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+      overflow: hidden;
+    }
+    
+    /* Floating particles (stars) */
+    .particle {
+      position: absolute;
+      background: var(--star-color);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    /* Shooting stars */
+    .shooting-star {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
     }
     
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
+      position: relative;
+      z-index: 1;
     }
     
     header {
-      background: var(--secondary-color);
-      color: white;
+      background: rgba(15, 15, 26, 0.8);
+      color: var(--buy-color);
       padding: 20px 0;
       text-align: center;
       margin-bottom: 30px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--buy-color), transparent);
     }
     
     h1 {
       margin: 0;
       font-size: 32px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px var(--buy-color), 0 0 20px var(--buy-color);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from { text-shadow: 0 0 5px var(--buy-color), 0 0 10px var(--buy-color); }
+      to { text-shadow: 0 0 10px var(--buy-color), 0 0 20px var(--buy-color), 0 0 30px var(--buy-color); }
     }
     
     .form-selector {
@@ -48,6 +113,7 @@
       justify-content: center;
       margin-bottom: 30px;
       gap: 15px;
+      perspective: 1000px;
     }
     
     .form-tab {
@@ -55,33 +121,56 @@
       border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
-      transition: all 0.3s;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: all 0.4s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      border: 1px solid transparent;
+    }
+    
+    .form-tab::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+    
+    .form-tab:hover::before {
+      left: 100%;
     }
     
     .form-tab.active {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transform: translateY(-5px) rotateX(10deg);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
     }
     
     .buy-tab {
-      background: var(--buy-color);
-      color: white;
+      background: rgba(255, 215, 0, 0.15);
+      color: var(--buy-color);
+      border-color: var(--buy-color);
     }
     
     .sell-tab {
-      background: var(--sell-color);
-      color: white;
+      background: rgba(255, 69, 0, 0.15);
+      color: var(--sell-color);
+      border-color: var(--sell-color);
     }
     
     .inquiry-tab {
-      background: var(--inquiry-color);
-      color: white;
+      background: rgba(30, 144, 255, 0.15);
+      color: var(--inquiry-color);
+      border-color: var(--inquiry-color);
     }
     
     .form-container {
       display: none;
-      animation: fadeIn 0.5s ease;
+      animation: fadeIn 0.8s ease;
+      perspective: 1000px;
     }
     
     .form-container.active {
@@ -89,120 +178,288 @@
     }
     
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(20px) rotateX(-15deg); }
+      to { opacity: 1; transform: translateY(0) rotateX(0); }
     }
     
-    /* Buy Form Styling */
-    .buy-form {
-      background: linear-gradient(135deg, rgba(39, 174, 96, 0.1) 0%, rgba(46, 204, 113, 0.1) 100%);
-      border: 2px solid var(--buy-color);
-    }
-    
-    .buy-form .form-title {
-      color: var(--buy-color);
-      border-bottom: 2px solid var(--buy-color);
-    }
-    
-    .buy-form button {
-      background: var(--buy-color);
-    }
-    
-    /* Sell Form Styling */
-    .sell-form {
-      background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(192, 57, 43, 0.1) 100%);
-      border: 2px solid var(--sell-color);
-    }
-    
-    .sell-form .form-title {
-      color: var(--sell-color);
-      border-bottom: 2px solid var(--sell-color);
-    }
-    
-    .sell-form button {
-      background: var(--sell-color);
-    }
-    
-    /* Inquiry Form Styling */
-    .inquiry-form {
-      background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(41, 128, 185, 0.1) 100%);
-      border: 2px solid var(--inquiry-color);
-    }
-    
-    .inquiry-form .form-title {
-      color: var(--inquiry-color);
-      border-bottom: 2px solid var(--inquiry-color);
-    }
-    
-    .inquiry-form button {
-      background: var(--inquiry-color);
-    }
-    
-    /* Common Form Styling */
+    /* Form Styling */
     form {
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       max-width: 600px;
       margin: 0 auto;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+      position: relative;
+      overflow: hidden;
+      background: rgba(15, 15, 26, 0.6);
+    }
+    
+    form:hover {
+      transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
+    }
+    
+    form::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, 
+        var(--buy-color), 
+        var(--sell-color), 
+        var(--inquiry-color), 
+        var(--buy-color));
+      background-size: 400%;
+      z-index: -1;
+      border-radius: 16px;
+      opacity: 0;
+      transition: 0.5s;
+      animation: animate 20s linear infinite;
+    }
+    
+    form:hover::before {
+      opacity: 0.2;
+      filter: blur(10px);
+    }
+    
+    @keyframes animate {
+      0% { background-position: 0 0; }
+      50% { background-position: 300% 0; }
+      100% { background-position: 0 0; }
     }
     
     .form-title {
       text-align: center;
-      padding-bottom: 10px;
+      padding-bottom: 15px;
       margin-top: 0;
       font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      text-shadow: 0 0 5px currentColor;
+    }
+    
+    .form-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 25%;
+      width: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, currentColor, transparent);
+    }
+    
+    .buy-form .form-title {
+      color: var(--buy-color);
+      animation: textGlow 3s ease infinite;
+    }
+    
+    .sell-form .form-title {
+      color: var(--sell-color);
+      animation: textGlow 3s ease infinite;
+    }
+    
+    .inquiry-form .form-title {
+      color: var(--inquiry-color);
+      animation: textGlow 3s ease infinite;
+    }
+    
+    @keyframes textGlow {
+      0%, 100% { text-shadow: 0 0 5px currentColor; }
+      50% { text-shadow: 0 0 15px currentColor; }
     }
     
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .form-group::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--buy-color), var(--inquiry-color));
+      transition: width 0.5s ease;
+    }
+    
+    .form-group:hover::after {
+      width: 100%;
     }
     
     label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--dark-color);
+      transition: all 0.3s;
+    }
+    
+    .form-group:hover label {
+      color: var(--buy-color);
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
     }
     
     input, textarea, select {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
+      padding: 12px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
       font-size: 16px;
-      transition: all 0.3s;
+      transition: all 0.4s;
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--dark-color);
+      font-family: 'Arial', sans-serif;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
     }
     
     input:focus, textarea:focus, select:focus {
       outline: none;
-      border-color: #999;
-      box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+      border-color: var(--buy-color);
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3), inset 0 1px 3px rgba(0,0,0,0.2);
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Typing animation for textarea */
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      position: relative;
+    }
+    
+    textarea:focus {
+      background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0.5) 0%, 
+        rgba(0, 0, 0, 0.5) calc(100% - 2px), 
+        var(--buy-color) calc(100% - 2px), 
+        var(--buy-color) 100%);
+      background-size: 100% 100%;
+      animation: typingEffect 1s steps(1) infinite;
+    }
+    
+    @keyframes typingEffect {
+      0% { background-size: 100% 100%; }
+      50% { background-size: 100% 102%; }
     }
     
     button {
-      color: white;
-      padding: 12px 25px;
+      color: #000;
+      padding: 14px 25px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       font-size: 16px;
-      font-weight: 600;
-      transition: all 0.3s;
+      font-weight: 700;
+      transition: all 0.4s;
       display: block;
       width: 100%;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+        var(--buy-color), 
+        #ffcc00, 
+        var(--buy-color));
+      background-size: 200% 200%;
+      z-index: -1;
+      transition: 0.5s;
+      animation: gradientShift 3s ease infinite;
     }
     
     button:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: 0.5s;
+    }
+    
+    button:hover::after {
+      left: 100%;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     
     .required-field::after {
       content: " *";
-      color: red;
+      color: var(--sell-color);
     }
     
+    /* Cursor Follower */
+    .cursor-follower {
+      position: fixed;
+      width: 30px;
+      height: 30px;
+      border: 2px solid var(--buy-color);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+      z-index: 9999;
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+      box-shadow: 0 0 15px var(--buy-color);
+    }
+    
+    .cursor-follower.active {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 215, 0, 0.2);
+    }
+    
+    /* Ripple Effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 215, 0, 0.6);
+      transform: scale(0);
+      pointer-events: none;
+      animation: ripple 0.6s linear;
+    }
+    
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    
+    /* Responsive Design */
     @media (max-width: 768px) {
       .form-selector {
         flex-direction: column;
@@ -214,10 +471,23 @@
         max-width: 300px;
         text-align: center;
       }
+      
+      h1 {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- Space Background -->
+  <div class="space-bg" id="spaceBg"></div>
+  
+  <!-- Floating Particles -->
+  <div id="particles"></div>
+  
+  <!-- Cursor Follower -->
+  <div class="cursor-follower" id="cursorFollower"></div>
 
   <header>
     <div class="container">
@@ -351,6 +621,7 @@
   </div>
 
   <script>
+    // Show selected form
     function showForm(formType) {
       // Hide all forms
       document.querySelectorAll('.form-container').forEach(form => {
@@ -369,6 +640,7 @@
       event.currentTarget.classList.add('active');
     }
     
+    // Send to WhatsApp
     function sendToWhatsApp(formType) {
       let msg = '';
       const phoneNumber = '916351598832';
@@ -416,6 +688,107 @@
       const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`;
       window.open(whatsappURL, "_blank");
     }
+
+    // Create floating particles (stars)
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 100;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 3 + 1;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const opacity = Math.random() * 0.8 + 0.2;
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 20;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.opacity = opacity;
+        particle.style.animation = `twinkle ${duration}s ease-in-out ${delay}s infinite`;
+        
+        particlesContainer.appendChild(particle);
+      }
+      
+      // Add shooting stars occasionally
+      setInterval(createShootingStar, 3000);
+    }
+    
+    // Create shooting stars
+    function createShootingStar() {
+      const shootingStar = document.createElement('div');
+      shootingStar.classList.add('shooting-star');
+      
+      const startX = Math.random() * 100;
+      const startY = Math.random() * 30;
+      const duration = Math.random() * 2 + 1;
+      
+      shootingStar.style.left = `${startX}%`;
+      shootingStar.style.top = `${startY}%`;
+      shootingStar.style.animation = `shoot ${duration}s linear`;
+      
+      document.body.appendChild(shootingStar);
+      
+      setTimeout(() => {
+        shootingStar.remove();
+      }, duration * 1000);
+    }
+    
+    // Cursor follower effect
+    const cursorFollower = document.getElementById('cursorFollower');
+    
+    document.addEventListener('mousemove', (e) => {
+      cursorFollower.style.left = `${e.clientX}px`;
+      cursorFollower.style.top = `${e.clientY}px`;
+      
+      // Scale up when hovering interactive elements
+      const target = e.target;
+      if (target.tagName === 'BUTTON' || target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.tagName === 'A' || target.classList.contains('form-tab')) {
+        cursorFollower.classList.add('active');
+      } else {
+        cursorFollower.classList.remove('active');
+      }
+    });
+    
+    // Ripple effect
+    document.addEventListener('click', (e) => {
+      const ripple = document.createElement('div');
+      ripple.classList.add('ripple');
+      ripple.style.left = `${e.clientX}px`;
+      ripple.style.top = `${e.clientY}px`;
+      document.body.appendChild(ripple);
+      
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
+    });
+    
+    // Initialize effects when page loads
+    window.onload = function() {
+      createParticles();
+      
+      // Add animation keyframes dynamically
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.2; }
+          50% { opacity: 1; }
+        }
+        
+        @keyframes shoot {
+          0% { transform: translate(0, 0); opacity: 0; }
+          10% { opacity: 1; }
+          100% { transform: translate(${Math.random() * 500 - 250}px, ${Math.random() * 200 + 100}px); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    };
   </script>
 
 </body>
