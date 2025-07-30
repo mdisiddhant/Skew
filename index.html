@@ -3,691 +3,419 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>जमीन खरीदें / बेचें</title>
+  <title>जमीन खरीदें / बेचें / पूछताछ</title>
   <style>
     :root {
-      --primary-color: #27ae60;
+      --buy-color: #27ae60;
+      --sell-color: #e74c3c;
+      --inquiry-color: #3498db;
       --secondary-color: #2c3e50;
       --light-color: #f5f5f5;
       --dark-color: #333;
-      --success-color: #2ecc71;
-      --warning-color: #f39c12;
-      --danger-color: #e74c3c;
     }
     
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      background: #f9f9f9;
       padding: 0;
       margin: 0;
-      color: white;
+      color: var(--dark-color);
       line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
     
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
-      position: relative;
-    }
-    
-    /* Floating particles background */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-    
-    .particle {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 50%;
-      pointer-events: none;
     }
     
     header {
-      background: rgba(44, 62, 80, 0.7);
+      background: var(--secondary-color);
       color: white;
       padding: 20px 0;
       text-align: center;
       margin-bottom: 30px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.5s ease;
     }
     
-    header:hover {
-      background: rgba(44, 62, 80, 0.9);
-      box-shadow: 0 0 20px rgba(255,255,255,0.3);
-    }
-    
-    h2 {
+    h1 {
       margin: 0;
-      font-size: 28px;
-      animation: rainbowGlow 3s ease infinite;
-      cursor: pointer;
-      transition: transform 0.3s ease;
+      font-size: 32px;
     }
     
-    h2:hover {
-      transform: scale(1.05);
-    }
-    
-    @keyframes rainbowGlow {
-      0% { 
-        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
-        color: #ff0000;
-      }
-      14% { 
-        text-shadow: 0 0 10px #ff7f00, 0 0 20px #ff7f00;
-        color: #ff7f00;
-      }
-      28% { 
-        text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00;
-        color: #ffff00;
-      }
-      42% { 
-        text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-        color: #00ff00;
-      }
-      56% { 
-        text-shadow: 0 0 10px #0000ff, 0 0 20px #0000ff;
-        color: #0000ff;
-      }
-      70% { 
-        text-shadow: 0 0 10px #4b0082, 0 0 20px #4b0082;
-        color: #4b0082;
-      }
-      84% { 
-        text-shadow: 0 0 10px #9400d3, 0 0 20px #9400d3;
-        color: #9400d3;
-      }
-      100% { 
-        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
-        color: #ff0000;
-      }
-    }
-    
-    .panel-container {
+    .form-selector {
       display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+      justify-content: center;
       margin-bottom: 30px;
+      gap: 15px;
     }
     
-    .panel {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      padding: 20px;
-      flex: 1;
-      min-width: 300px;
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .panel:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-    
-    .panel:hover::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
-      background-size: 300% 300%;
-      animation: gradientButton 8s ease infinite;
-    }
-    
-    .panel-title {
-      border-bottom: 2px solid rgba(255,255,255,0.2);
-      padding-bottom: 10px;
-      margin-top: 0;
-      font-size: 22px;
-      animation: colorShift 5s infinite alternate;
-      text-shadow: 0 0 8px currentColor;
+    .form-tab {
+      padding: 12px 25px;
+      border-radius: 6px;
       cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     
-    @keyframes colorShift {
-      0% { color: #ff9a9e; }
-      25% { color: #fad0c4; }
-      50% { color: #a1c4fd; }
-      75% { color: #c2e9fb; }
-      100% { color: #ffecd2; }
+    .form-tab.active {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
     
-    .features-panel {
-      background: linear-gradient(135deg, rgba(255,154,158,0.2) 0%, rgba(161,196,253,0.2) 100%);
-    }
-    
-    .features-list {
-      list-style-type: none;
-      padding: 0;
-    }
-    
-    .features-list li {
-      padding: 10px 0;
-      position: relative;
-      padding-left: 35px;
-      font-size: 16px;
-      text-shadow: 0 0 5px rgba(255,255,255,0.3);
-      animation: subtleGlow 4s infinite alternate;
-      transition: all 0.3s ease;
-    }
-    
-    .features-list li:hover {
-      transform: translateX(5px);
-      text-shadow: 0 0 10px rgba(255,255,255,0.7);
-    }
-    
-    @keyframes subtleGlow {
-      from { text-shadow: 0 0 5px rgba(255,255,255,0.3); }
-      to { text-shadow: 0 0 10px rgba(255,255,255,0.5), 0 0 15px rgba(255,255,255,0.2); }
-    }
-    
-    .features-list li:before {
-      content: "✓";
+    .buy-tab {
+      background: var(--buy-color);
       color: white;
-      font-weight: bold;
-      position: absolute;
-      left: 0;
-      font-size: 20px;
-      text-shadow: 0 0 10px currentColor;
-      animation: checkGlow 2s infinite alternate;
-      transition: all 0.3s ease;
     }
     
-    .features-list li:hover:before {
-      transform: scale(1.2);
+    .sell-tab {
+      background: var(--sell-color);
+      color: white;
     }
     
-    @keyframes checkGlow {
-      from { text-shadow: 0 0 5px #fff; }
-      to { text-shadow: 0 0 15px #fff, 0 0 20px #ff00de; }
+    .inquiry-tab {
+      background: var(--inquiry-color);
+      color: white;
     }
     
+    .form-container {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .form-container.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Buy Form Styling */
+    .buy-form {
+      background: linear-gradient(135deg, rgba(39, 174, 96, 0.1) 0%, rgba(46, 204, 113, 0.1) 100%);
+      border: 2px solid var(--buy-color);
+    }
+    
+    .buy-form .form-title {
+      color: var(--buy-color);
+      border-bottom: 2px solid var(--buy-color);
+    }
+    
+    .buy-form button {
+      background: var(--buy-color);
+    }
+    
+    /* Sell Form Styling */
+    .sell-form {
+      background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(192, 57, 43, 0.1) 100%);
+      border: 2px solid var(--sell-color);
+    }
+    
+    .sell-form .form-title {
+      color: var(--sell-color);
+      border-bottom: 2px solid var(--sell-color);
+    }
+    
+    .sell-form button {
+      background: var(--sell-color);
+    }
+    
+    /* Inquiry Form Styling */
+    .inquiry-form {
+      background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(41, 128, 185, 0.1) 100%);
+      border: 2px solid var(--inquiry-color);
+    }
+    
+    .inquiry-form .form-title {
+      color: var(--inquiry-color);
+      border-bottom: 2px solid var(--inquiry-color);
+    }
+    
+    .inquiry-form button {
+      background: var(--inquiry-color);
+    }
+    
+    /* Common Form Styling */
     form {
-      background: rgba(255, 255, 255, 0.2);
       padding: 25px;
       border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.3);
-      transition: all 0.5s ease;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 0 auto;
     }
     
-    form:hover {
-      box-shadow: 0 0 30px rgba(255,255,255,0.3);
+    .form-title {
+      text-align: center;
+      padding-bottom: 10px;
+      margin-top: 0;
+      font-size: 24px;
     }
     
     .form-group {
       margin-bottom: 20px;
-      position: relative;
-    }
-    
-    .form-group:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: white;
-      transition: width 0.3s ease;
-    }
-    
-    .form-group:hover:after {
-      width: 100%;
     }
     
     label {
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
-      font-size: 16px;
-      text-shadow: 0 0 5px rgba(255,255,255,0.3);
-      animation: labelGlow 6s infinite;
-    }
-    
-    @keyframes labelGlow {
-      0% { color: #ffffff; text-shadow: 0 0 5px #ffffff; }
-      50% { color: #a1fffc; text-shadow: 0 0 10px #a1fffc; }
-      100% { color: #ffffff; text-shadow: 0 0 5px #ffffff; }
     }
     
     input, textarea, select {
       width: 100%;
       padding: 12px;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid #ddd;
       border-radius: 6px;
       font-size: 16px;
       transition: all 0.3s;
-      background: rgba(255,255,255,0.2);
-      color: white;
-    }
-    
-    input::placeholder, textarea::placeholder {
-      color: rgba(255,255,255,0.7);
     }
     
     input:focus, textarea:focus, select:focus {
-      border-color: white;
       outline: none;
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.3),
-                  0 0 15px rgba(255,255,255,0.4);
-      background: rgba(255,255,255,0.3);
-    }
-    
-    /* Live typing effect for textarea */
-    textarea {
-      position: relative;
-    }
-    
-    textarea:focus {
-      background-image: linear-gradient(to right, rgba(255,255,255,0.1) 50%, transparent 50%);
-      background-size: 200% 100%;
-      animation: typingEffect 1s infinite steps(1);
-    }
-    
-    @keyframes typingEffect {
-      0% { background-position: 0 0; }
-      50% { background-position: -100% 0; }
+      border-color: #999;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
     }
     
     button {
-      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
-      background-size: 300% 300%;
-      color: #2c3e50;
-      padding: 14px 25px;
+      color: white;
+      padding: 12px 25px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 16px;
+      font-weight: 600;
       transition: all 0.3s;
       display: block;
       width: 100%;
-      box-shadow: 0 0 15px rgba(255,255,255,0.5);
-      animation: gradientButton 8s ease infinite;
-      text-shadow: 0 0 5px rgba(255,255,255,0.5);
-      position: relative;
-      overflow: hidden;
     }
     
     button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 20px rgba(255,255,255,0.8);
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
     
-    button:active {
-      transform: translateY(0);
-    }
-    
-    button:after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: rgba(255,255,255,0.2);
-      transform: rotate(45deg);
-      transition: all 0.6s ease;
-    }
-    
-    button:hover:after {
-      left: 100%;
-    }
-    
-    @keyframes gradientButton {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
-    .testimonials {
-      margin-top: 40px;
-    }
-    
-    .testimonial-card {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      margin-bottom: 20px;
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    
-    .testimonial-card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
-    
-    .testimonial-card p {
-      font-style: italic;
-      animation: textPulse 5s infinite;
-    }
-    
-    @keyframes textPulse {
-      0% { text-shadow: 0 0 5px rgba(255,255,255,0.3); }
-      50% { text-shadow: 0 0 10px rgba(255,255,255,0.6); }
-      100% { text-shadow: 0 0 5px rgba(255,255,255,0.3); }
-    }
-    
-    .testimonial-author {
-      font-weight: bold;
-      margin-top: 15px;
-      color: #fad0c4;
-      text-shadow: 0 0 8px rgba(250,208,196,0.5);
-      animation: authorGlow 4s infinite alternate;
-    }
-    
-    @keyframes authorGlow {
-      from { text-shadow: 0 0 5px rgba(250,208,196,0.5); }
-      to { text-shadow: 0 0 15px rgba(250,208,196,0.8); }
-    }
-    
-    footer {
-      background: rgba(44, 62, 80, 0.7);
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border-top: 1px solid rgba(255,255,255,0.2);
-    }
-    
-    footer p {
-      margin: 5px 0;
-      text-shadow: 0 0 5px rgba(255,255,255,0.3);
-      animation: footerText 6s infinite;
-    }
-    
-    @keyframes footerText {
-      0% { color: #ffffff; }
-      50% { color: #a1fffc; }
-      100% { color: #ffffff; }
-    }
-    
-    /* Live cursor follower effect */
-    .cursor-follower {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      background: rgba(255,255,255,0.3);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      mix-blend-mode: screen;
-      z-index: 9999;
-      transition: transform 0.1s ease;
+    .required-field::after {
+      content: " *";
+      color: red;
     }
     
     @media (max-width: 768px) {
-      .panel-container {
+      .form-selector {
         flex-direction: column;
+        align-items: center;
       }
       
-      h2 {
-        font-size: 24px;
+      .form-tab {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating particles background -->
-  <div class="particles" id="particles"></div>
-  
-  <!-- Cursor follower -->
-  <div class="cursor-follower" id="cursorFollower"></div>
-
   <header>
     <div class="container">
-      <h2>जमीन खरीदने / बेचने के लिए संपर्क करें</h2>
+      <h1>जमीन खरीदें / बेचें / पूछताछ</h1>
     </div>
   </header>
 
   <div class="container">
-    <div class="panel-container">
-      <div class="panel features-panel">
-        <h3 class="panel-title">हमारी सेवाएं</h3>
-        <ul class="features-list">
-          <li>सभी प्रकार की जमीन खरीदें और बेचें</li>
-          <li>कानूनी दस्तावेजों की पूरी जांच</li>
-          <li>मार्केट रेट के अनुसार मूल्यांकन</li>
-          <li>पंजीकरण और स्टाम्प पेपर सहायता</li>
-          <li>ऋण सहायता उपलब्ध</li>
-          <li>24x7 ग्राहक सहायता</li>
-        </ul>
-      </div>
-      
-      <div class="panel">
-        <h3 class="panel-title">जमीन की जानकारी</h3>
-        <p>हम आपको सर्वोत्तम मूल्य पर जमीन खरीदने और बेचने में मदद करते हैं। हमारे विशेषज्ञ आपको संपत्ति के कानूनी पहलुओं, मूल्यांकन और दस्तावेज़ीकरण में पूर्ण सहायता प्रदान करेंगे।</p>
-        <p>अपनी आवश्यकताओं के बारे में हमें बताएं और हम आपके लिए सर्वोत्तम विकल्प ढूंढेंगे।</p>
-      </div>
+    <div class="form-selector">
+      <div class="form-tab buy-tab active" onclick="showForm('buy')">जमीन खरीदें</div>
+      <div class="form-tab sell-tab" onclick="showForm('sell')">जमीन बेचें</div>
+      <div class="form-tab inquiry-tab" onclick="showForm('inquiry')">पूछताछ करें</div>
     </div>
 
-    <form onsubmit="sendToWhatsApp(); return false;">
-      <div class="form-group">
-        <label for="name">आपका नाम:</label>
-        <input type="text" id="name" required placeholder="अपना नाम दर्ज करें">
-      </div>
-      
-      <div class="form-group">
-        <label for="mobile">मोबाइल नंबर:</label>
-        <input type="tel" id="mobile" required placeholder="अपना मोबाइल नंबर दर्ज करें">
-      </div>
-      
-      <div class="form-group">
-        <label for="purpose">जमीन खरीदनी है या बेचनी?</label>
-        <select id="purpose" required>
-          <option value="">चुनें</option>
-          <option value="खरीदना">खरीदना</option>
-          <option value="बेचना">बेचना</option>
-          <option value="पूछताछ">सिर्फ पूछताछ</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="location">स्थान / पता:</label>
-        <input type="text" id="location" required placeholder="जमीन का स्थान दर्ज करें">
-      </div>
-      
-      <div class="form-group">
-        <label for="area">जमीन का क्षेत्रफल (वर्ग फुट/एकड़):</label>
-        <input type="text" id="area" placeholder="जमीन का क्षेत्रफल दर्ज करें">
-      </div>
-      
-      <div class="form-group">
-        <label for="budget">अनुमानित बजट (यदि खरीद रहे हैं):</label>
-        <input type="text" id="budget" placeholder="अनुमानित बजट दर्ज करें">
-      </div>
-      
-      <div class="form-group">
-        <label for="details">अतिरिक्त जानकारी:</label>
-        <textarea id="details" rows="4" placeholder="कोई अतिरिक्त जानकारी दर्ज करें"></textarea>
-      </div>
-      
-      <button type="submit">WhatsApp पर भेजें</button>
-    </form>
-    
-    <div class="testimonials">
-      <h3 class="panel-title">हमारे ग्राहक क्या कहते हैं</h3>
-      
-      <div class="testimonial-card">
-        <p>"मैंने इनकी मदद से अपनी जमीन बेची और बहुत अच्छा मूल्य मिला। कानूनी प्रक्रिया भी बहुत आसानी से पूरी हुई।"</p>
-        <div class="testimonial-author">- राजेश कुमार, इंदौर</div>
-      </div>
-      
-      <div class="testimonial-card">
-        <p>"खेती की जमीन खरीदने में पूरी सहायता मिली। दस्तावेजों की जांच अच्छे से की गई और सही मूल्य पर जमीन मिली।"</p>
-        <div class="testimonial-author">- प्रिया शर्मा, भोपाल</div>
-      </div>
+    <!-- Buy Land Form -->
+    <div id="buy-form" class="form-container buy-form active">
+      <form onsubmit="sendToWhatsApp('buy'); return false;">
+        <h3 class="form-title">जमीन खरीदने के लिए फॉर्म</h3>
+        
+        <div class="form-group">
+          <label for="buy-name" class="required-field">आपका नाम</label>
+          <input type="text" id="buy-name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="buy-mobile" class="required-field">मोबाइल नंबर</label>
+          <input type="tel" id="buy-mobile" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="buy-location" class="required-field">आप कहाँ जमीन खरीदना चाहते हैं?</label>
+          <input type="text" id="buy-location" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="buy-area" class="required-field">जमीन का क्षेत्रफल (वर्ग फुट/एकड़)</label>
+          <input type="text" id="buy-area" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="buy-budget" class="required-field">आपका बजट</label>
+          <input type="text" id="buy-budget" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="buy-purpose">जमीन का उद्देश्य (आवासीय/वाणिज्यिक/कृषि)</label>
+          <input type="text" id="buy-purpose">
+        </div>
+        
+        <div class="form-group">
+          <label for="buy-details">अतिरिक्त जानकारी</label>
+          <textarea id="buy-details" rows="4"></textarea>
+        </div>
+        
+        <button type="submit">जमीन खरीदने के लिए संपर्क करें</button>
+      </form>
+    </div>
+
+    <!-- Sell Land Form -->
+    <div id="sell-form" class="form-container sell-form">
+      <form onsubmit="sendToWhatsApp('sell'); return false;">
+        <h3 class="form-title">जमीन बेचने के लिए फॉर्म</h3>
+        
+        <div class="form-group">
+          <label for="sell-name" class="required-field">आपका नाम</label>
+          <input type="text" id="sell-name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="sell-mobile" class="required-field">मोबाइल नंबर</label>
+          <input type="tel" id="sell-mobile" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="sell-location" class="required-field">जमीन का स्थान</label>
+          <input type="text" id="sell-location" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="sell-area" class="required-field">जमीन का क्षेत्रफल (वर्ग फुट/एकड़)</label>
+          <input type="text" id="sell-area" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="sell-price" class="required-field">अनुमानित मूल्य</label>
+          <input type="text" id="sell-price" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="sell-type">जमीन का प्रकार (आवासीय/वाणिज्यिक/कृषि)</label>
+          <input type="text" id="sell-type">
+        </div>
+        
+        <div class="form-group">
+          <label for="sell-details">अतिरिक्त जानकारी (कानूनी दस्तावेज आदि)</label>
+          <textarea id="sell-details" rows="4"></textarea>
+        </div>
+        
+        <button type="submit">जमीन बेचने के लिए संपर्क करें</button>
+      </form>
+    </div>
+
+    <!-- Inquiry Form -->
+    <div id="inquiry-form" class="form-container inquiry-form">
+      <form onsubmit="sendToWhatsApp('inquiry'); return false;">
+        <h3 class="form-title">पूछताछ फॉर्म</h3>
+        
+        <div class="form-group">
+          <label for="inquiry-name" class="required-field">आपका नाम</label>
+          <input type="text" id="inquiry-name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="inquiry-mobile" class="required-field">मोबाइल नंबर</label>
+          <input type="tel" id="inquiry-mobile" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="inquiry-subject">विषय</label>
+          <input type="text" id="inquiry-subject">
+        </div>
+        
+        <div class="form-group">
+          <label for="inquiry-message" class="required-field">आपका संदेश</label>
+          <textarea id="inquiry-message" rows="4" required></textarea>
+        </div>
+        
+        <button type="submit">पूछताछ भेजें</button>
+      </form>
     </div>
   </div>
-  
-  <footer>
-    <div class="container">
-      <p>© 2023 जमीन कनेक्ट. सर्वाधिकार सुरक्षित</p>
-      <p>संपर्क: info@zameenconnect.com | फोन: +91 6351598832</p>
-    </div>
-  </footer>
 
   <script>
-    function sendToWhatsApp() {
-      const name = document.getElementById("name").value;
-      const mobile = document.getElementById("mobile").value;
-      const purpose = document.getElementById("purpose").value;
-      const location = document.getElementById("location").value;
-      const area = document.getElementById("area").value;
-      const budget = document.getElementById("budget").value;
-      const details = document.getElementById("details").value;
-
-      let msg = `जमीन ${purpose} है\n\n👤 नाम: ${name}\n📞 मोबाइल: ${mobile}\n📍 स्थान: ${location}`;
+    function showForm(formType) {
+      // Hide all forms
+      document.querySelectorAll('.form-container').forEach(form => {
+        form.classList.remove('active');
+      });
       
-      if (area) msg += `\n📏 क्षेत्रफल: ${area}`;
-      if (budget) msg += `\n💰 बजट: ${budget}`;
-      if (details) msg += `\n📝 जानकारी: ${details}`;
+      // Deactivate all tabs
+      document.querySelectorAll('.form-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
       
-      const whatsappURL = `https://wa.me/916351598832?text=${encodeURIComponent(msg)}`;
+      // Show selected form
+      document.getElementById(`${formType}-form`).classList.add('active');
+      
+      // Activate selected tab
+      event.currentTarget.classList.add('active');
+    }
+    
+    function sendToWhatsApp(formType) {
+      let msg = '';
+      const phoneNumber = '916351598832';
+      
+      if (formType === 'buy') {
+        const name = document.getElementById("buy-name").value;
+        const mobile = document.getElementById("buy-mobile").value;
+        const location = document.getElementById("buy-location").value;
+        const area = document.getElementById("buy-area").value;
+        const budget = document.getElementById("buy-budget").value;
+        const purpose = document.getElementById("buy-purpose").value;
+        const details = document.getElementById("buy-details").value;
+        
+        msg = `जमीन खरीदने के लिए संपर्क:\n\n👤 नाम: ${name}\n📞 मोबाइल: ${mobile}\n📍 स्थान: ${location}\n📏 क्षेत्रफल: ${area}\n💰 बजट: ${budget}`;
+        
+        if (purpose) msg += `\n🎯 उद्देश्य: ${purpose}`;
+        if (details) msg += `\n📝 जानकारी: ${details}`;
+        
+      } else if (formType === 'sell') {
+        const name = document.getElementById("sell-name").value;
+        const mobile = document.getElementById("sell-mobile").value;
+        const location = document.getElementById("sell-location").value;
+        const area = document.getElementById("sell-area").value;
+        const price = document.getElementById("sell-price").value;
+        const type = document.getElementById("sell-type").value;
+        const details = document.getElementById("sell-details").value;
+        
+        msg = `जमीन बेचने के लिए संपर्क:\n\n👤 नाम: ${name}\n📞 मोबाइल: ${mobile}\n📍 स्थान: ${location}\n📏 क्षेत्रफल: ${area}\n💰 मूल्य: ${price}`;
+        
+        if (type) msg += `\n🏠 प्रकार: ${type}`;
+        if (details) msg += `\n📝 जानकारी: ${details}`;
+        
+      } else if (formType === 'inquiry') {
+        const name = document.getElementById("inquiry-name").value;
+        const mobile = document.getElementById("inquiry-mobile").value;
+        const subject = document.getElementById("inquiry-subject").value;
+        const message = document.getElementById("inquiry-message").value;
+        
+        msg = `पूछताछ:\n\n👤 नाम: ${name}\n📞 मोबाइल: ${mobile}`;
+        
+        if (subject) msg += `\n📌 विषय: ${subject}`;
+        msg += `\n📝 संदेश: ${message}`;
+      }
+      
+      const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`;
       window.open(whatsappURL, "_blank");
     }
-
-    // Floating particles effect
-    const particlesContainer = document.getElementById('particles');
-    const particleCount = 30;
-    
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      
-      // Random properties
-      const size = Math.random() * 5 + 2;
-      const posX = Math.random() * 100;
-      const posY = Math.random() * 100;
-      const delay = Math.random() * 5;
-      const duration = Math.random() * 10 + 10;
-      
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.left = `${posX}%`;
-      particle.style.top = `${posY}%`;
-      particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
-      particle.style.opacity = Math.random() * 0.5 + 0.1;
-      
-      // Add animation keyframes dynamically
-      const keyframes = `
-        @keyframes float {
-          0% { transform: translate(0, 0) rotate(0deg); }
-          25% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) rotate(${Math.random() * 90 - 45}deg); }
-          50% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) rotate(${Math.random() * 90 - 45}deg); }
-          75% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) rotate(${Math.random() * 90 - 45}deg); }
-          100% { transform: translate(0, 0) rotate(0deg); }
-        }
-      `;
-      
-      const style = document.createElement('style');
-      style.innerHTML = keyframes;
-      document.head.appendChild(style);
-      
-      particlesContainer.appendChild(particle);
-    }
-
-    // Cursor follower effect
-    const cursorFollower = document.getElementById('cursorFollower');
-    
-    document.addEventListener('mousemove', (e) => {
-      cursorFollower.style.left = `${e.clientX}px`;
-      cursorFollower.style.top = `${e.clientY}px`;
-      
-      // Scale up when hovering interactive elements
-      const target = e.target;
-      if (target.tagName === 'BUTTON' || target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.tagName === 'A') {
-        cursorFollower.style.transform = 'translate(-50%, -50%) scale(3)';
-        cursorFollower.style.background = 'rgba(255,255,255,0.5)';
-      } else {
-        cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
-        cursorFollower.style.background = 'rgba(255,255,255,0.3)';
-      }
-    });
-
-    // Click ripple effect
-    document.addEventListener('click', (e) => {
-      const ripple = document.createElement('div');
-      ripple.style.position = 'fixed';
-      ripple.style.width = '20px';
-      ripple.style.height = '20px';
-      ripple.style.backgroundColor = 'rgba(255,255,255,0.5)';
-      ripple.style.borderRadius = '50%';
-      ripple.style.pointerEvents = 'none';
-      ripple.style.left = `${e.clientX}px`;
-      ripple.style.top = `${e.clientY}px`;
-      ripple.style.transform = 'translate(-50%, -50%) scale(0)';
-      ripple.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
-      document.body.appendChild(ripple);
-      
-      setTimeout(() => {
-        ripple.style.transform = 'translate(-50%, -50%) scale(20)';
-        ripple.style.opacity = '0';
-      }, 10);
-      
-      setTimeout(() => {
-        ripple.remove();
-      }, 600);
-    });
-
-    // Panel hover tilt effect
-    const panels = document.querySelectorAll('.panel');
-    panels.forEach(panel => {
-      panel.addEventListener('mousemove', (e) => {
-        const rect = panel.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const angleX = (y - centerY) / 20;
-        const angleY = (centerX - x) / 20;
-        
-      panel.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
-      });
-      
-      panel.addEventListener('mouseleave', () => {
-        panel.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-      });
-    });
   </script>
 
 </body>
