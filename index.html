@@ -7,12 +7,14 @@
   <link rel="manifest" href="manifest-v2.json" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Base Styles - Optimized for Performance */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
     }
     
     body {
@@ -21,10 +23,10 @@
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
-      touch-action: manipulation;
+      line-height: 1.5;
     }
     
-    /* Optimized Animated Background for Mobile */
+    /* Performance-Optimized Background */
     .live-glow-bg {
       position: fixed;
       top: 0;
@@ -32,243 +34,135 @@
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 50% 80%, rgba(255, 255, 0, 0.1) 0%, transparent 40%);
-      animation: glowMove 20s linear infinite;
+        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.05) 0%, transparent 40%);
       z-index: -2;
-      will-change: background-position;
-    }
-    
-    @keyframes glowMove {
-      0% { background-position: 0% 0%; }
-      100% { background-position: 100% 100%; }
-    }
-    
-    /* Lightweight Particles for Mobile */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       pointer-events: none;
-      z-index: -1;
     }
     
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(0, 255, 255, 0.5);
-      box-shadow: 0 0 10px #00ffff;
-      animation: floatParticle linear infinite;
-      will-change: transform;
-    }
-    
-    @keyframes floatParticle {
-      0% { transform: translateY(0) translateX(0); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
-    }
-    
-    /* Optimized Logo Styling */
+    /* Logo Styling - Cross Platform */
     .logo-wrapper {
       display: flex;
       justify-content: center;
-      padding: 15px 0 10px;
+      padding: 1.5rem 0 1rem;
     }
     
     .home-logo {
-      height: 100px;
-      width: 100px;
+      height: clamp(80px, 15vw, 140px);
+      width: clamp(80px, 15vw, 140px);
       border-radius: 50%;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
-      animation: logoFloat 6s ease-in-out infinite;
-      transition: all 0.5s;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
       object-fit: contain;
+      transition: transform 0.3s ease;
     }
     
     .home-logo:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 30px rgba(0, 255, 255, 1);
     }
     
-    @keyframes logoFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    
-    /* Mobile-Friendly Header */
+    /* Header - Responsive Typography */
     header {
       text-align: center;
-      padding: 0 15px 20px;
+      padding: 0 1rem 1.5rem;
     }
     
     .glow-heading {
-      font-size: 2rem;
-      margin-bottom: 8px;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      margin-bottom: 0.5rem;
       color: #00ffff;
-      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ccff, 0 0 30px #0099ff;
-      animation: glowPulse 2s ease-in-out infinite;
+      text-shadow: 0 0 10px #00ffff;
       letter-spacing: 0.5px;
       line-height: 1.2;
-    }
-    
-    @keyframes glowPulse {
-      0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ccff, 0 0 30px #0099ff; }
-      50% { text-shadow: 0 0 15px #00ffff, 0 0 25px #00ccff, 0 0 35px #0099ff; }
+      font-weight: 700;
     }
     
     header p {
-      font-size: 1rem;
+      font-size: clamp(0.9rem, 3vw, 1.2rem);
       color: #e0f7fa;
-      text-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
-      max-width: 90%;
+      max-width: 800px;
       margin: 0 auto;
-      line-height: 1.4;
     }
     
-    /* Mobile-Optimized Navigation */
+    /* Navigation - Fully Responsive Grid */
     nav {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(8px);
-      padding: 15px;
-      margin: 0 auto 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-      max-width: 95%;
+      padding: 1.25rem;
+      margin: 0 auto 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      max-width: min(95%, 1000px);
       border: 1px solid rgba(0, 255, 255, 0.2);
-      animation: navGlow 4s infinite alternate;
-    }
-    
-    @keyframes navGlow {
-      0% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
-      100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
     }
     
     nav a {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 5px;
-      border-radius: 10px;
-      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      padding: 0.75rem 0.5rem;
+      border-radius: 0.75rem;
+      background: rgba(26, 26, 46, 0.8);
       color: #fff;
       text-decoration: none;
-      font-weight: bold;
-      font-size: 14px;
-      box-shadow: 0 0 5px #00ffff80, inset 0 0 3px #00ffff33;
-      text-shadow: 0 0 5px #00ffff;
-      transition: all 0.2s ease-in-out;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(0, 255, 255, 0.3);
+      font-weight: 600;
+      font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+      box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+      transition: all 0.2s ease;
       text-align: center;
-    }
-    
-    nav a::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-      transition: 0.3s;
-    }
-    
-    nav a:hover::before {
-      left: 100%;
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      min-height: 50px;
     }
     
     nav a:hover, nav a.active {
       background: linear-gradient(145deg, #00ffff, #00aaff);
       color: #000;
+      transform: translateY(-2px);
       box-shadow: 0 0 15px #00ffff;
-      transform: translateY(-3px);
-      text-shadow: none;
     }
     
-    /* Content Area for Mobile */
+    /* Content Area - Responsive Layout */
     .content {
-      padding: 15px;
+      padding: 1rem;
       text-align: center;
-      max-width: 95%;
+      max-width: min(95%, 800px);
       margin: 0 auto;
     }
     
     .content h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      margin-bottom: 0.75rem;
       color: #fff;
-      text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
     }
     
     .content p {
-      font-size: 0.9rem;
-      color: #e0f7fa;
-      margin-bottom: 20px;
+      font-size: clamp(0.85rem, 3vw, 1rem);
+      margin-bottom: 1.5rem;
     }
     
-    .glow-timer {
-      font-size: 1rem;
-      font-weight: bold;
-      text-align: center;
-      margin: 20px auto;
-      padding: 12px 20px;
-      color: #00ffff;
-      text-shadow: 0 0 5px #00ffff;
-      background: rgba(0, 255, 255, 0.1);
-      border: 1px solid #00ffff80;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #00ffff88, inset 0 0 5px #00ffff44;
-      width: fit-content;
-      animation: glowPulse 2s infinite;
-    }
-    
-    @keyframes glowPulse {
-      0% { box-shadow: 0 0 10px #00ffff88, inset 0 0 5px #00ffff44; }
-      50% { box-shadow: 0 0 20px #00ffffaa, inset 0 0 8px #00ffff66; }
-      100% { box-shadow: 0 0 10px #00ffff88, inset 0 0 5px #00ffff44; }
-    }
-    
+    /* Download Section */
     .download-section {
-      margin-top: 20px;
+      margin-top: 1rem;
       background: rgba(255, 255, 255, 0.08);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
-      border: 1px solid rgba(0, 255, 255, 0.3);
-      backdrop-filter: blur(3px);
-    }
-    
-    .download-section h3 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-    }
-    
-    .download-section p {
-      font-size: 0.9rem;
-      margin-bottom: 15px;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(0, 255, 255, 0.2);
     }
     
     .download-btn {
-      margin-top: 15px;
-      padding: 12px 20px;
-      font-size: 1rem;
-      color: white;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      color: #000;
       background: linear-gradient(45deg, #00ffff, #00aaff);
       border: none;
-      border-radius: 10px;
+      border-radius: 0.75rem;
       cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
-      transition: all 0.2s;
-      font-weight: bold;
+      font-weight: 600;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      transition: transform 0.2s ease;
       display: inline-block;
       width: 100%;
       max-width: 250px;
@@ -276,43 +170,27 @@
     
     .download-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
     }
     
     .msg {
-      margin-top: 15px;
+      margin-top: 1rem;
       color: #00ff99;
-      font-weight: bold;
-      text-shadow: 0 0 5px rgba(0, 255, 153, 0.3);
-      font-size: 0.9rem;
+      font-weight: 600;
+      font-size: clamp(0.8rem, 3vw, 0.9rem);
     }
     
-    /* Mobile Footer */
+    /* Footer */
     footer {
-      margin-top: 40px;
+      margin-top: 3rem;
       text-align: center;
-      padding: 15px;
+      padding: 1rem;
       color: #aaa;
-      font-size: 0.8rem;
-      border-top: 1px solid #333;
-      position: relative;
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(3px);
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      border-top: 1px solid rgba(0, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.2);
     }
     
-    footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(to right, transparent, #00ffff, #ff00cc, transparent);
-      box-shadow: 0 0 10px #00ffff55;
-    }
-    
-    /* Mobile Admin Login Modal */
+    /* Admin Modal - Responsive */
     .modal {
       display: none;
       position: fixed;
@@ -324,53 +202,41 @@
       z-index: 1000;
       justify-content: center;
       align-items: center;
-      padding: 15px;
+      padding: 1rem;
       box-sizing: border-box;
     }
     
     .modal-content {
       background: linear-gradient(145deg, #0f0c29, #302b63);
-      border-radius: 15px;
-      padding: 25px;
+      border-radius: 1rem;
+      padding: 1.5rem;
       width: 100%;
-      max-width: 350px;
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
       border: 1px solid #00ffff;
       position: relative;
-      animation: modalAppear 0.3s ease-out;
-    }
-    
-    @keyframes modalAppear {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
     }
     
     .close {
       position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
+      top: 0.75rem;
+      right: 1rem;
+      font-size: 1.5rem;
       color: #aaa;
       cursor: pointer;
-      transition: 0.2s;
-    }
-    
-    .close:hover {
-      color: #fff;
     }
     
     .admin-form {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 1rem;
     }
     
     .admin-form h2 {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 0.5rem;
       color: #00ffff;
-      text-shadow: 0 0 5px #00ffff;
-      font-size: 1.5rem;
+      font-size: clamp(1.3rem, 4vw, 1.5rem);
     }
     
     .input-group {
@@ -379,43 +245,35 @@
     
     .input-group input {
       width: 100%;
-      padding: 12px 15px 12px 40px;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.4);
+      padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+      border-radius: 0.75rem;
+      background: rgba(0, 0, 0, 0.3);
       border: 1px solid #00ffff;
       color: #fff;
       font-size: 1rem;
-      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
     }
     
     .input-group i {
       position: absolute;
-      left: 12px;
+      left: 0.75rem;
       top: 50%;
       transform: translateY(-50%);
       color: #00ffff;
-      font-size: 18px;
     }
     
     .admin-form button {
-      padding: 12px;
-      border-radius: 10px;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
       background: linear-gradient(to right, #00ffff, #00aaff);
       border: none;
       color: #000;
-      font-weight: bold;
+      font-weight: 600;
       font-size: 1rem;
       cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+      margin-top: 0.5rem;
     }
     
-    .admin-form button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
-    }
-    
-    /* Mobile Admin Panel */
+    /* Admin Panel - Responsive Grid */
     #adminPanel {
       display: none;
       position: fixed;
@@ -426,193 +284,156 @@
       background: rgba(0, 10, 20, 0.95);
       z-index: 2000;
       overflow-y: auto;
-      padding: 15px;
+      padding: 1rem;
       box-sizing: border-box;
     }
     
     .admin-header {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      padding: 15px;
+      gap: 1rem;
+      padding: 1rem;
       background: rgba(0, 20, 40, 0.7);
-      border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
       border: 1px solid #00ffff;
     }
     
     .admin-title {
-      font-size: 1.5rem;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
       color: #00ffff;
-      text-shadow: 0 0 10px #00ffff;
       text-align: center;
     }
     
     .logout-btn {
-      padding: 10px 15px;
+      padding: 0.75rem;
       background: linear-gradient(to right, #ff4081, #ff00cc);
       border: none;
-      border-radius: 10px;
+      border-radius: 0.75rem;
       color: white;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 0 15px rgba(255, 0, 204, 0.4);
-      font-size: 0.9rem;
-    }
-    
-    .logout-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(255, 0, 204, 0.6);
+      font-size: clamp(0.8rem, 3vw, 0.9rem);
     }
     
     .admin-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-      margin-bottom: 25px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
     
     .admin-card {
       background: rgba(0, 20, 40, 0.6);
-      border-radius: 15px;
-      padding: 15px;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      border-radius: 0.75rem;
+      padding: 1rem;
       border: 1px solid rgba(0, 255, 255, 0.3);
-      transition: all 0.2s ease;
-    }
-    
-    .admin-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
     }
     
     .card-header {
       display: flex;
       align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
       border-bottom: 1px solid rgba(0, 255, 255, 0.2);
     }
     
     .card-icon {
-      font-size: 20px;
-      margin-right: 10px;
+      font-size: 1.5rem;
+      margin-right: 0.75rem;
       color: #00ffff;
-      text-shadow: 0 0 5px #00ffff;
     }
     
     .card-title {
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 3vw, 1.2rem);
       color: #00ffff;
     }
     
-    .card-content {
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-    
     .stat-number {
-      font-size: 1.8rem;
-      font-weight: bold;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
       color: #ffcc00;
-      text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
-      margin: 8px 0;
+      margin: 0.5rem 0;
     }
     
     .stat-label {
       color: #aaa;
-      font-size: 0.9rem;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
     }
     
     .progress-bar {
-      height: 8px;
+      height: 0.5rem;
       background: rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
-      margin: 10px 0;
+      border-radius: 0.5rem;
+      margin: 0.75rem 0;
       overflow: hidden;
     }
     
     .progress-fill {
       height: 100%;
       background: linear-gradient(to right, #00ffff, #00aaff);
-      border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+      border-radius: 0.5rem;
     }
     
     .chart-container {
       height: 150px;
       background: rgba(0, 0, 0, 0.3);
-      border-radius: 12px;
-      margin-top: 15px;
+      border-radius: 0.75rem;
+      margin-top: 1rem;
       display: flex;
       align-items: flex-end;
-      padding: 8px;
+      padding: 0.5rem;
     }
     
     .chart-bar {
       flex: 1;
       background: linear-gradient(to top, #00ffff, #00aaff);
-      margin: 0 4px;
-      border-radius: 4px 4px 0 0;
+      margin: 0 0.25rem;
+      border-radius: 0.25rem 0.25rem 0 0;
       position: relative;
-      box-shadow: 0 0 5px rgba(0, 255, 255, 0.2);
     }
     
     .chart-label {
       position: absolute;
-      bottom: -20px;
+      bottom: -1.5rem;
       left: 0;
       width: 100%;
       text-align: center;
-      font-size: 10px;
+      font-size: 0.7rem;
       color: #aaa;
     }
     
     .recent-orders {
       background: rgba(0, 20, 40, 0.6);
-      border-radius: 15px;
-      padding: 15px;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      border-radius: 0.75rem;
+      padding: 1rem;
       border: 1px solid rgba(0, 255, 255, 0.3);
-      margin-bottom: 25px;
+      margin-bottom: 1.5rem;
     }
     
     .orders-list {
-      margin-top: 15px;
+      margin-top: 1rem;
     }
     
     .order-item {
       display: flex;
       justify-content: space-between;
-      padding: 12px;
-      margin: 8px 0;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
       background: rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-      transition: all 0.2s;
-    }
-    
-    .order-item:hover {
-      background: rgba(0, 0, 0, 0.5);
-      transform: translateX(3px);
+      border-radius: 0.5rem;
     }
     
     .order-info {
       flex: 1;
-      font-size: 0.9rem;
-    }
-    
-    .order-info div:first-child {
-      font-weight: bold;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
     }
     
     .order-status {
-      padding: 4px 10px;
-      border-radius: 15px;
-      font-weight: bold;
-      font-size: 0.8rem;
-      align-self: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      font-size: 0.75rem;
     }
     
     .status-pending {
@@ -630,58 +451,31 @@
       color: #00aaff;
     }
     
-    /* Tablet and Desktop Styles */
-    @media (min-width: 600px) {
-      .home-logo {
-        height: 120px;
-        width: 120px;
-      }
-      
-      .glow-heading {
-        font-size: 2.5rem;
-      }
-      
-      header p {
-        font-size: 1.1rem;
-      }
-      
+    /* Tablet Landscape and Larger Screens */
+    @media (min-width: 768px) and (orientation: landscape) {
       nav {
-        grid-template-columns: repeat(3, 1fr);
-        padding: 20px;
+        grid-template-columns: repeat(4, 1fr);
       }
       
-      nav a {
-        font-size: 15px;
-        padding: 12px 8px;
+      .admin-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
       }
       
-      .content h2 {
-        font-size: 1.8rem;
-      }
-      
-      .content p {
-        font-size: 1rem;
-      }
-      
-      .admin-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .logout-btn {
+        width: auto;
       }
     }
     
-    @media (min-width: 900px) {
-      .home-logo {
-        height: 140px;
-        width: 140px;
-      }
-      
+    /* Desktop Screens */
+    @media (min-width: 1024px) {
       nav {
-        grid-template-columns: repeat(4, 1fr);
-        max-width: 1000px;
+        grid-template-columns: repeat(5, 1fr);
       }
       
       nav a {
-        font-size: 16px;
-        padding: 14px 10px;
+        font-size: 0.9rem;
       }
       
       .admin-grid {
@@ -692,7 +486,6 @@
 </head>
 <body>
   <div class="live-glow-bg"></div>
-  <div class="particles" id="particles"></div>
   
   <div class="logo-wrapper">
     <img src="logo.png" alt="Banda Ki Seva Logo" class="home-logo">
@@ -725,10 +518,6 @@
     <h2>🙏 आपका स्वागत है!</h2>
     <p>हमारी सेवाओं का लाभ उठाने के लिए ऐप डाउनलोड करें।</p>
 
-    <div class="glow-timer">
-      ⏳ <span id="countdown">लोड हो रहा है...</span>
-    </div>
-
     <div class="download-section">
       <h3>📲 हमारा मोबाइल ऐप डाउनलोड करें</h3>
       <p>Banda Ki Seva App में सारी सेवाएं एक जगह!</p>
@@ -748,11 +537,11 @@
       <h2>Admin Login</h2>
       <form class="admin-form" onsubmit="adminLogin(event)">
         <div class="input-group">
-          <i>👤</i>
+          <i class="fas fa-user"></i>
           <input type="text" placeholder="Username" required>
         </div>
         <div class="input-group">
-          <i>🔒</i>
+          <i class="fas fa-lock"></i>
           <input type="password" placeholder="Password" required>
         </div>
         <button type="submit">Login</button>
@@ -760,7 +549,7 @@
     </div>
   </div>
 
-  <!-- Stylish Admin Panel -->
+  <!-- Admin Panel -->
   <div id="adminPanel">
     <div class="admin-header">
       <div class="admin-title">🚀 Banda Ki Seva - Admin Dashboard</div>
@@ -787,7 +576,7 @@
         <div class="card-header">
           <div class="card-icon">📦</div>
           <div class="card-title">आज की डिलीवरी</div>
-          </div>
+        </div>
         <div class="card-content">
           <div class="stat-number">42</div>
           <div class="stat-label">17 पेंडिंग ऑर्डर</div>
@@ -861,55 +650,12 @@
           </div>
           <div class="order-status status-completed">Completed</div>
         </div>
-        
-        <div class="order-item">
-          <div class="order-info">
-            <div>#ORD00122 - Anjali Patel</div>
-            <div class="stat-label">VIP: Document Collection</div>
-          </div>
-          <div class="order-status status-completed">Completed</div>
-        </div>
-        
-        <div class="order-item">
-          <div class="order-info">
-            <div>#ORD00121 - Mohan Gupta</div>
-            <div class="stat-label">Books: 5 items</div>
-          </div>
-          <div class="order-status status-pending">Pending</div>
-        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Create optimized floating particles for mobile
-    const particlesContainer = document.getElementById('particles');
-    const particleCount = window.innerWidth < 600 ? 20 : 30;
-    
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      
-      // Random position
-      const left = Math.random() * 100;
-      const top = Math.random() * 100;
-      
-      // Random size (smaller for mobile)
-      const size = Math.random() * 4 + 2;
-      
-      // Random animation duration
-      const duration = Math.random() * 15 + 10;
-      
-      particle.style.left = `${left}%`;
-      particle.style.top = `${top}%`;
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.animationDuration = `${duration}s`;
-      
-      particlesContainer.appendChild(particle);
-    }
-    
-    // Admin modal functions
+    // Admin Functions
     function openAdmin() {
       document.getElementById('adminModal').style.display = 'flex';
     }
@@ -920,7 +666,6 @@
     
     function adminLogin(event) {
       event.preventDefault();
-      // For demo purposes, we'll just show the admin panel
       document.getElementById('adminModal').style.display = 'none';
       document.getElementById('adminPanel').style.display = 'block';
     }
@@ -929,55 +674,31 @@
       document.getElementById('adminPanel').style.display = 'none';
     }
     
-    // Close modal if clicked outside
-    window.addEventListener('click', (event) => {
-      const modal = document.getElementById('adminModal');
-      if (event.target === modal) {
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === document.getElementById('adminModal')) {
         closeAdmin();
       }
     });
     
+    // Download App Function
     function downloadApp() {
       const apkUrl = "https://drive.google.com/uc?export=download&id=1Dv_I0ylLJYdGzECBEQjNjPutHlefbKyq";
       document.getElementById("msg").textContent = "⏳ Download शुरू हो रहा है...";
       setTimeout(() => {
-        document.getElementById("msg").textContent = "✅ Download शुरू हो गया! अगर नहीं हुआ तो कृपया दोबारा क्लिक करें।";
+        document.getElementById("msg").textContent = "✅ Download शुरू हो गया!";
         window.location.href = apkUrl;
-      }, 1000);
+      }, 500);
     }
     
-    // Countdown Logic
-    const countdownElement = document.getElementById("countdown");
-    const targetDate = new Date("2025-07-10T00:00:00").getTime();
-    
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-    
-      if (distance <= 0) {
-        countdownElement.innerHTML = "✅ समय समाप्त हो गया!";
-        return;
-      }
-    
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-      countdownElement.innerHTML = `${days} दिन ${hours} घंटे ${minutes} मिनट ${seconds} सेकंड शेष`;
-    }
-    
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-    
-    // Simulate PWA functionality
+    // Service Worker Registration
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
+      window.addEventListener('load', function() {
         navigator.serviceWorker.register('service-worker.js')
-          .then(registration => {
+          .then(function(registration) {
             console.log('ServiceWorker registration successful');
           })
-          .catch(err => {
+          .catch(function(err) {
             console.log('ServiceWorker registration failed: ', err);
           });
       });
@@ -987,9 +708,6 @@
     document.addEventListener('gesturestart', function(e) {
       e.preventDefault();
     });
-    
-    // Touch optimization
-    document.addEventListener('touchstart', function() {}, true);
   </script>
 </body>
 </html>
