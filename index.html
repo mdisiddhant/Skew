@@ -1,713 +1,788 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Banda Ki Seva - Home</title>
-  <link rel="manifest" href="manifest-v2.json" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* Base Styles - Optimized for Performance */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-font-smoothing: antialiased;
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>रक्षा बंधन की शुभकामनाएँ 🌸</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg1:#0f1724;
+    --bg2:#3b0a4a;
+    --accent:#ffcf33;
+    --accent2:#ff7aa2;
+    --card: rgba(255,255,255,0.06);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:"Poppins",sans-serif;
+    background: radial-gradient( circle at 10% 20%, rgba(255,122,162,0.08), transparent 10%),
+                linear-gradient(135deg,var(--bg1),#2b1638 60%, #0f1724);
+    color:#fff;
+    min-height:100vh;
+    padding:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Floating Animation Elements */
+  .floating-element {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  .flower {
+    opacity: 0.7;
+    animation: float 15s infinite linear;
+  }
+  
+  .rakhi {
+    animation: float 20s infinite linear, rotate 30s infinite linear;
+  }
+  
+  .bubble {
+    border-radius: 50%;
+    background: rgba(255, 207, 51, 0.2);
+    box-shadow: 0 0 10px rgba(255, 207, 51, 0.3);
+    animation: float 12s infinite linear, pulse 3s infinite alternate;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
+  }
+  
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 0.3; transform: scale(0.8); }
+    100% { opacity: 0.8; transform: scale(1.1); }
+  }
+
+  .card{
+    width:100%;
+    max-width:980px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:16px;
+    padding:24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.04);
+    position:relative;
+    overflow:hidden;
+    z-index: 10;
+  }
+
+  /* decorative ribbons */
+  .ribbon{
+    position:absolute;
+    right:-120px;
+    top:-80px;
+    width:420px;
+    height:420px;
+    background: radial-gradient(circle at 30% 30%, rgba(255,199,51,0.12), transparent 20%),
+                conic-gradient(from 120deg at 50% 50%, rgba(255,122,162,0.08), transparent 30%);
+    transform:rotate(20deg);
+    filter:blur(12px);
+    pointer-events:none;
+  }
+
+  header{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    margin-bottom:18px;
+  }
+
+  .logo{
+    width:84px;
+    height:84px;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 6px 20px rgba(255,122,162,0.12);
+    flex-shrink:0;
+    animation: pulse 3s infinite alternate;
+  }
+
+  .logo svg{ width:56px; height:56px; }
+
+  h1{
+    font-size:22px;
+    margin:0;
+    line-height:1.05;
+    font-weight:700;
+    letter-spacing:0.2px;
+  }
+  p.lead{ margin:6px 0 0; color:rgba(255,255,255,0.75); font-size:14px }
+
+  .main{
+    display:grid;
+    grid-template-columns: 1fr 360px;
+    gap:18px;
+    margin-top:16px;
+  }
+
+  /* left - greeting editor */
+  .editor{
+    background:var(--card);
+    padding:16px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.03);
+    min-height:420px;
+  }
+
+  .preview{
+    background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
+    border-radius:10px;
+    padding:18px;
+    min-height:220px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Rakhi frame */
+  .rakhi-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' viewBox='0 0 100 100' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 L100,0 L100,100 L0,100 Z' fill='none' stroke='%23ffcf33' stroke-width='1.5' stroke-dasharray='4,4'/%3E%3C/svg%3E");
+    border-radius: 10px;
+    animation: rotateFrame 60s infinite linear;
+  }
+  
+  @keyframes rotateFrame {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .preview .title{
+    font-family:"Kalam",cursive;
+    font-size:28px;
+    color:var(--accent);
+    text-shadow: 0 4px 18px rgba(255,199,51,0.12);
+    margin-bottom: 10px;
+  }
+  
+  .preview .msg{
+    font-size:18px;
+    color:#fff;
+    line-height:1.45;
+    max-width:90%;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    0% { 
+      opacity: 0;
+      transform: translateY(20px);
     }
-    
-    body {
-      background: linear-gradient(135deg, #000428, #004e92);
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-      line-height: 1.5;
+    100% { 
+      opacity: 1;
+      transform: translateY(0);
     }
-    
-    /* Performance-Optimized Background */
-    .live-glow-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.05) 0%, transparent 40%);
-      z-index: -2;
-      pointer-events: none;
-    }
-    
-    /* Logo Styling - Cross Platform */
-    .logo-wrapper {
-      display: flex;
-      justify-content: center;
-      padding: 1.5rem 0 1rem;
-    }
-    
-    .home-logo {
-      height: clamp(80px, 15vw, 140px);
-      width: clamp(80px, 15vw, 140px);
-      border-radius: 50%;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-      object-fit: contain;
-      transition: transform 0.3s ease;
-    }
-    
-    .home-logo:hover {
-      transform: scale(1.05);
-    }
-    
-    /* Header - Responsive Typography */
-    header {
-      text-align: center;
-      padding: 0 1rem 1.5rem;
-    }
-    
-    .glow-heading {
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      margin-bottom: 0.5rem;
-      color: #00ffff;
-      text-shadow: 0 0 10px #00ffff;
-      letter-spacing: 0.5px;
-      line-height: 1.2;
-      font-weight: 700;
-    }
-    
-    header p {
-      font-size: clamp(0.9rem, 3vw, 1.2rem);
-      color: #e0f7fa;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    /* Navigation - Fully Responsive Grid */
-    nav {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 0.75rem;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(8px);
-      padding: 1.25rem;
-      margin: 0 auto 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-      max-width: min(95%, 1000px);
-      border: 1px solid rgba(0, 255, 255, 0.2);
-    }
-    
-    nav a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.75rem 0.5rem;
-      border-radius: 0.75rem;
-      background: rgba(26, 26, 46, 0.8);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: clamp(0.7rem, 2.5vw, 0.9rem);
-      box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
-      transition: all 0.2s ease;
-      text-align: center;
-      border: 1px solid rgba(0, 255, 255, 0.2);
-      min-height: 50px;
-    }
-    
-    nav a:hover, nav a.active {
-      background: linear-gradient(145deg, #00ffff, #00aaff);
-      color: #000;
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px #00ffff;
-    }
-    
-    /* Content Area - Responsive Layout */
-    .content {
-      padding: 1rem;
-      text-align: center;
-      max-width: min(95%, 800px);
-      margin: 0 auto;
-    }
-    
-    .content h2 {
-      font-size: clamp(1.3rem, 4vw, 1.8rem);
-      margin-bottom: 0.75rem;
-      color: #fff;
-    }
-    
-    .content p {
-      font-size: clamp(0.85rem, 3vw, 1rem);
-      margin-bottom: 1.5rem;
-    }
-    
-    /* Download Section */
-    .download-section {
-      margin-top: 1rem;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 1.5rem;
-      border-radius: 1rem;
-      border: 1px solid rgba(0, 255, 255, 0.2);
-    }
-    
-    .download-btn {
-      margin-top: 1rem;
-      padding: 0.75rem 1.5rem;
-      font-size: clamp(0.9rem, 3vw, 1rem);
-      color: #000;
-      background: linear-gradient(45deg, #00ffff, #00aaff);
-      border: none;
-      border-radius: 0.75rem;
-      cursor: pointer;
-      font-weight: 600;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-      transition: transform 0.2s ease;
-      display: inline-block;
-      width: 100%;
-      max-width: 250px;
-    }
-    
-    .download-btn:hover {
-      transform: translateY(-2px);
-    }
-    
-    .msg {
-      margin-top: 1rem;
-      color: #00ff99;
-      font-weight: 600;
-      font-size: clamp(0.8rem, 3vw, 0.9rem);
-    }
-    
-    /* Footer */
-    footer {
-      margin-top: 3rem;
-      text-align: center;
-      padding: 1rem;
-      color: #aaa;
-      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
-      border-top: 1px solid rgba(0, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.2);
-    }
-    
-    /* Admin Modal - Responsive */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-    
-    .modal-content {
-      background: linear-gradient(145deg, #0f0c29, #302b63);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-      border: 1px solid #00ffff;
-      position: relative;
-    }
-    
-    .close {
-      position: absolute;
-      top: 0.75rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      color: #aaa;
-      cursor: pointer;
-    }
-    
-    .admin-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    
-    .admin-form h2 {
-      text-align: center;
-      margin-bottom: 0.5rem;
-      color: #00ffff;
-      font-size: clamp(1.3rem, 4vw, 1.5rem);
-    }
-    
-    .input-group {
-      position: relative;
-    }
-    
-    .input-group input {
-      width: 100%;
-      padding: 0.75rem 0.75rem 0.75rem 2.5rem;
-      border-radius: 0.75rem;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid #00ffff;
-      color: #fff;
-      font-size: 1rem;
-    }
-    
-    .input-group i {
-      position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #00ffff;
-    }
-    
-    .admin-form button {
-      padding: 0.75rem;
-      border-radius: 0.75rem;
-      background: linear-gradient(to right, #00ffff, #00aaff);
-      border: none;
-      color: #000;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
-    
-    /* Admin Panel - Responsive Grid */
-    #adminPanel {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 10, 20, 0.95);
-      z-index: 2000;
-      overflow-y: auto;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-    
-    .admin-header {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1rem;
-      background: rgba(0, 20, 40, 0.7);
-      border-radius: 0.75rem;
-      margin-bottom: 1.5rem;
-      border: 1px solid #00ffff;
-    }
-    
-    .admin-title {
-      font-size: clamp(1.3rem, 4vw, 1.8rem);
-      color: #00ffff;
-      text-align: center;
-    }
-    
-    .logout-btn {
-      padding: 0.75rem;
-      background: linear-gradient(to right, #ff4081, #ff00cc);
-      border: none;
-      border-radius: 0.75rem;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: clamp(0.8rem, 3vw, 0.9rem);
-    }
-    
-    .admin-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .admin-card {
-      background: rgba(0, 20, 40, 0.6);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      border: 1px solid rgba(0, 255, 255, 0.3);
-    }
-    
-    .card-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.75rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-    }
-    
-    .card-icon {
-      font-size: 1.5rem;
-      margin-right: 0.75rem;
-      color: #00ffff;
-    }
-    
-    .card-title {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      color: #00ffff;
-    }
-    
-    .stat-number {
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      font-weight: 700;
-      color: #ffcc00;
-      margin: 0.5rem 0;
-    }
-    
-    .stat-label {
-      color: #aaa;
-      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-    }
-    
-    .progress-bar {
-      height: 0.5rem;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 0.5rem;
-      margin: 0.75rem 0;
-      overflow: hidden;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(to right, #00ffff, #00aaff);
-      border-radius: 0.5rem;
-    }
-    
-    .chart-container {
-      height: 150px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 0.75rem;
-      margin-top: 1rem;
-      display: flex;
-      align-items: flex-end;
-      padding: 0.5rem;
-    }
-    
-    .chart-bar {
-      flex: 1;
-      background: linear-gradient(to top, #00ffff, #00aaff);
-      margin: 0 0.25rem;
-      border-radius: 0.25rem 0.25rem 0 0;
-      position: relative;
-    }
-    
-    .chart-label {
-      position: absolute;
-      bottom: -1.5rem;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #aaa;
-    }
-    
-    .recent-orders {
-      background: rgba(0, 20, 40, 0.6);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      border: 1px solid rgba(0, 255, 255, 0.3);
-      margin-bottom: 1.5rem;
-    }
-    
-    .orders-list {
-      margin-top: 1rem;
-    }
-    
-    .order-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.75rem;
-      margin: 0.5rem 0;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 0.5rem;
-    }
-    
-    .order-info {
-      flex: 1;
-      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-    }
-    
-    .order-status {
-      padding: 0.25rem 0.75rem;
-      border-radius: 1rem;
-      font-weight: 600;
-      font-size: 0.75rem;
-    }
-    
-    .status-pending {
-      background: rgba(255, 204, 0, 0.2);
-      color: #ffcc00;
-    }
-    
-    .status-completed {
-      background: rgba(0, 255, 153, 0.2);
-      color: #00ff99;
-    }
-    
-    .status-processing {
-      background: rgba(0, 153, 255, 0.2);
-      color: #00aaff;
-    }
-    
-    /* Tablet Landscape and Larger Screens */
-    @media (min-width: 768px) and (orientation: landscape) {
-      nav {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      
-      .admin-header {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-      
-      .logout-btn {
-        width: auto;
-      }
-    }
-    
-    /* Desktop Screens */
-    @media (min-width: 1024px) {
-      nav {
-        grid-template-columns: repeat(5, 1fr);
-      }
-      
-      nav a {
-        font-size: 0.9rem;
-      }
-      
-      .admin-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-  </style>
+  }
+
+  textarea#customMsg{
+    width:100%;
+    height:120px;
+    resize:vertical;
+    border-radius:10px;
+    padding:12px;
+    background:rgba(0,0,0,0.35);
+    color:#fff;
+    border:1px solid rgba(255,255,255,0.03);
+    outline:none;
+    font-size:15px;
+    transition: all 0.3s ease;
+  }
+  
+  textarea#customMsg:focus {
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 2px rgba(255, 122, 162, 0.3);
+  }
+
+  .templates{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:12px;
+  }
+  .chip{
+    background:rgba(255,255,255,0.03);
+    padding:8px 12px;
+    border-radius:999px;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,0.02);
+    font-size:14px;
+    transition: all 0.2s ease;
+  }
+  .chip:hover{ 
+    transform:translateY(-3px); 
+    box-shadow:0 6px 18px rgba(0,0,0,0.4);
+    background: rgba(255, 207, 51, 0.1);
+    border-color: rgba(255, 207, 51, 0.2);
+  }
+
+  .controls{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#201;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:600;
+    border:none;
+    cursor:pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn:after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.1);
+    transform: rotate(30deg);
+    transition: all 0.6s ease;
+  }
+  
+  .btn:hover:after {
+    transform: translateY(100%) rotate(30deg);
+  }
+  
+  .btn:active {
+    transform: scale(0.96);
+  }
+  
+  .btn.ghost{
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.06);
+    color:#fff;
+  }
+  .btn.whatsapp{
+    background:linear-gradient(90deg,#25D366,#1ebe5d);
+    color:#fff;
+  }
+  
+  .btn.slideshow {
+    background: linear-gradient(90deg, #9b59b6, #8e44ad);
+  }
+
+  /* Slideshow controls */
+  .slideshow-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  .slideshow-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .slideshow-btn:hover {
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.1);
+  }
+  
+  .slideshow-btn.active {
+    background: var(--accent2);
+    box-shadow: 0 0 10px rgba(255, 122, 162, 0.5);
+  }
+  
+  .slideshow-indicator {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    margin: 0 5px;
+  }
+
+  /* right - tips & actions */
+  .side{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .card-small{
+    background: rgba(0,0,0,0.25);
+    padding:12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.03);
+    transition: all 0.3s ease;
+  }
+  
+  .card-small:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+  
+  .share-list{ display:flex; gap:8px; flex-wrap:wrap; }
+
+  footer{ 
+    margin-top:18px; 
+    text-align:center; 
+    color:rgba(255,255,255,0.6); 
+    font-size:13px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* responsive */
+  @media (max-width:980px){
+    .main{ grid-template-columns:1fr; }
+    .side{ order:2 }
+  }
+  
+  @media (max-width:600px){
+    body { padding: 12px; }
+    .card { padding: 16px; }
+    .main { gap: 12px; }
+    .controls { flex-direction: column; }
+    .templates { flex-direction: column; }
+    .chip { width: 100%; text-align: center; }
+  }
+  
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+</style>
 </head>
 <body>
-  <div class="live-glow-bg"></div>
-  
-  <div class="logo-wrapper">
-    <img src="https://i.postimg.cc/NMD1ddYg/logo.png" alt="Banda Ki Seva Logo" class="home-logo">
+  <!-- Floating animation elements -->
+  <div class="floating-element flower" style="top: 10%; left: 5%; width: 40px; height: 40px; animation-delay: 0s;">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 5C13.2 5 14 4.2 14 3C14 1.8 13.2 1 12 1C10.8 1 10 1.8 10 3C10 4.2 10.8 5 12 5Z" fill="#FF7AA2"/>
+      <path d="M21 12C22.2 12 23 11.2 23 10C23 8.8 22.2 8 21 8C19.8 8 19 8.8 19 10C19 11.2 19.8 12 21 12Z" fill="#FF7AA2"/>
+      <path d="M3 12C4.2 12 5 11.2 5 10C5 8.8 4.2 8 3 8C1.8 8 1 8.8 1 10C1 11.2 1.8 12 3 12Z" fill="#FF7AA2"/>
+      <path d="M12 23C13.2 23 14 22.2 14 21C14 19.8 13.2 19 12 19C10.8 19 10 19.8 10 21C10 22.2 10.8 23 12 23Z" fill="#FF7AA2"/>
+      <path d="M16.24 7.76C17.2 8.72 18.46 9 19.5 8.5C20.54 8 21 6.8 20.5 5.5C20 4.2 18.8 3.46 17.5 3.96C16.2 4.46 15.46 5.66 15.96 6.96C16.16 7.46 16.54 7.84 16.24 7.76Z" fill="#FFCF33"/>
+      <path d="M5.5 15.96C6.8 15.46 7.54 14.26 7.04 12.96C6.54 11.66 5.34 10.92 4.04 11.42C2.74 11.92 2 13.12 2.5 14.42C3 15.72 4.2 16.46 5.5 15.96Z" fill="#FFCF33"/>
+      <path d="M7.76 16.24C7.84 16.54 7.46 16.16 6.96 15.96C5.66 15.46 4.46 16.2 3.96 17.5C3.46 18.8 4.2 20 5.5 20.5C6.8 21 8 20.54 8.5 19.5C9 18.46 8.72 17.2 7.76 16.24Z" fill="#FFCF33"/>
+      <path d="M15.96 17.04C16.46 18.34 17.66 19.08 18.96 18.58C20.26 18.08 21 16.88 20.5 15.58C20 14.28 18.8 13.54 17.5 14.04C16.2 14.54 15.46 15.74 15.96 17.04Z" fill="#FFCF33"/>
+      <circle cx="12" cy="12" r="3" fill="#FF7AA2"/>
+    </svg>
   </div>
   
-  <header>
-    <h1 class="glow-heading">📦 Banda Ki Seva</h1>
-    <p>1 Day Courier | Digital Seva | Local Delivery</p>
-  </header>
+  <div class="floating-element bubble" style="top: 20%; left: 80%; width: 25px; height: 25px; animation-delay: 2s;"></div>
   
-  <!-- Navigation Bar -->
-  <nav>
-    <a href="index.html" class="active">🏠 होम</a>
-    <a href="digital.html">🖥️ डिजिटल</a>
-    <a href="kirana.html">🛒 किराना</a>
-    <a href="books.html">📚 Books</a>
-    <a href="job.html">💻 जॉब</a>
-    <a href="courier.html">🚚 Courier</a>
-    <a href="track.html">🔍 Track</a>
-    <a href="vip.html">👑 VIP</a>
-    <a href="refer.html">🎁 Refer</a>
-    <a href="contact.html">📞 Contact</a>
-    <a href="about.html">ℹ️ About</a>
-    <a href="register.html">📝 Register</a>
-    <a href="#" onclick="openAdmin()">🛡️ Admin</a>
-  </nav>
-
-  <!-- Main Content -->
-  <div class="content">
-    <h2>🙏 आपका स्वागत है!</h2>
-    <p>हमारी सेवाओं का लाभ उठाने के लिए ऐप डाउनलोड करें।</p>
-
-    <div class="download-section">
-      <h3>📲 हमारा मोबाइल ऐप डाउनलोड करें</h3>
-      <p>Banda Ki Seva App में सारी सेवाएं एक जगह!</p>
-      <button class="download-btn" onclick="downloadApp()">⬇️ Download APK</button>
-      <div class="msg" id="msg"></div>
-    </div>
+  <div class="floating-element rakhi" style="top: 40%; left: 15%; width: 50px; height: 50px; animation-delay: 4s;">
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="14" fill="#fff1c9"/>
+      <circle cx="32" cy="32" r="8" fill="#ff7aa2"/>
+      <g fill="#ffd27a">
+        <rect x="4" y="30" width="12" height="4" rx="2"/>
+        <rect x="48" y="30" width="12" height="4" rx="2"/>
+      </g>
+    </svg>
+  </div>
+  
+  <div class="floating-element flower" style="top: 60%; left: 70%; width: 35px; height: 35px; animation-delay: 1s;">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 5C13.2 5 14 4.2 14 3C14 1.8 13.2 1 12 1C10.8 1 10 1.8 10 3C10 4.2 10.8 5 12 5Z" fill="#FF7AA2"/>
+      <path d="M21 12C22.2 12 23 11.2 23 10C23 8.8 22.2 8 21 8C19.8 8 19 8.8 19 10C19 11.2 19.8 12 21 12Z" fill="#FF7AA2"/>
+      <path d="M3 12C4.2 12 5 11.2 5 10C5 8.8 4.2 8 3 8C1.8 8 1 8.8 1 10C1 11.2 1.8 12 3 12Z" fill="#FF7AA2"/>
+      <path d="M12 23C13.2 23 14 22.2 14 21C14 19.8 13.2 19 12 19C10.8 19 10 19.8 10 21C10 22.2 10.8 23 12 23Z" fill="#FF7AA2"/>
+      <path d="M16.24 7.76C17.2 8.72 18.46 9 19.5 8.5C20.54 8 21 6.8 20.5 5.5C20 4.2 18.8 3.46 17.5 3.96C16.2 4.46 15.46 5.66 15.96 6.96C16.16 7.46 16.54 7.84 16.24 7.76Z" fill="#FFCF33"/>
+      <path d="M5.5 15.96C6.8 15.46 7.54 14.26 7.04 12.96C6.54 11.66 5.34 10.92 4.04 11.42C2.74 11.92 2 13.12 2.5 14.42C3 15.72 4.2 16.46 5.5 15.96Z" fill="#FFCF33"/>
+      <path d="M7.76 16.24C7.84 16.54 7.46 16.16 6.96 15.96C5.66 15.46 4.46 16.2 3.96 17.5C3.46 18.8 4.2 20 5.5 20.5C6.8 21 8 20.54 8.5 19.5C9 18.46 8.72 17.2 7.76 16.24Z" fill="#FFCF33"/>
+      <path d="M15.96 17.04C16.46 18.34 17.66 19.08 18.96 18.58C20.26 18.08 21 16.88 20.5 15.58C20 14.28 18.8 13.54 17.5 14.04C16.2 14.54 15.46 15.74 15.96 17.04Z" fill="#FFCF33"/>
+      <circle cx="12" cy="12" r="3" fill="#FF7AA2"/>
+    </svg>
+  </div>
+  
+  <div class="floating-element bubble" style="top: 80%; left: 40%; width: 30px; height: 30px; animation-delay: 3s;"></div>
+  
+  <div class="floating-element rakhi" style="top: 30%; left: 90%; width: 40px; height: 40px; animation-delay: 5s;">
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="14" fill="#fff1c9"/>
+      <circle cx="32" cy="32" r="8" fill="#ff7aa2"/>
+      <g fill="#ffd27a">
+        <rect x="4" y="30" width="12" height="4" rx="2"/>
+        <rect x="48" y="30" width="12" height="4" rx="2"/>
+      </g>
+    </svg>
   </div>
 
-  <footer>
-    &copy; 2025 Banda Ki Seva | Powered by Siddhant Dhuriya
-  </footer>
+  <div class="card" id="pageRoot">
+    <div class="ribbon" aria-hidden="true"></div>
 
-  <!-- Admin Login Modal -->
-  <div id="adminModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeAdmin()">&times;</span>
-      <h2>Admin Login</h2>
-      <form class="admin-form" onsubmit="adminLogin(event)">
-        <div class="input-group">
-          <i class="fas fa-user"></i>
-          <input type="text" placeholder="Username" required>
-        </div>
-        <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" placeholder="Password" required>
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </div>
+    <header>
+      <div class="logo" aria-hidden="true">
+        <!-- simple rakhi icon -->
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="14" fill="#fff1c9"/>
+          <circle cx="32" cy="32" r="8" fill="#ff7aa2"/>
+          <g fill="#ffd27a">
+            <rect x="4" y="30" width="12" height="4" rx="2"/>
+            <rect x="48" y="30" width="12" height="4" rx="2"/>
+          </g>
+        </svg>
+      </div>
 
-  <!-- Admin Panel -->
-  <div id="adminPanel">
-    <div class="admin-header">
-      <div class="admin-title">🚀 Banda Ki Seva - Admin Dashboard</div>
-      <button class="logout-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-    </div>
-    
-    <div class="admin-grid">
-      <div class="admin-card">
-        <div class="card-header">
-          <div class="card-icon">👤</div>
-          <div class="card-title">कुल यूज़र</div>
-        </div>
-        <div class="card-content">
-          <div class="stat-number">1,248</div>
-          <div class="stat-label">पिछले 30 दिनों में 12% वृद्धि</div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-          <div class="stat-label">लक्ष्य: 1,500 यूज़र</div>
-        </div>
+      <div>
+        <h1>रक्षा बंधन की हार्दिक शुभकामनाएँ</h1>
+        <p class="lead">अपनी भावनाएँ सुंदर शब्दों में लिखें — कॉपी करें, व्हाट्सऐप करें या इमेज डाउनलोड करें</p>
       </div>
-      
-      <div class="admin-card">
-        <div class="card-header">
-          <div class="card-icon">📦</div>
-          <div class="card-title">आज की डिलीवरी</div>
+    </header>
+
+    <div class="main">
+      <!-- LEFT -->
+      <div class="editor" id="editor">
+        <div class="preview" id="previewCard">
+          <div class="rakhi-frame"></div>
+          <div class="title">राखी की हार्दिक शुभकामनाएँ 🌺</div>
+          <div class="msg" id="previewMsg">मेरी प्यारी बहन/भाई, तुम्हारे लिए मेरी दुआएँ और प्यार हमेशा बनी रहे। हैप्पी राखी!</div>
         </div>
-        <div class="card-content">
-          <div class="stat-number">42</div>
-          <div class="stat-label">17 पेंडिंग ऑर्डर</div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 60%"></div>
+
+        <label style="display:block; margin-top:14px; font-weight:600; font-size:14px;">अपना संदेश लिखें (हिंदी/English)</label>
+        <textarea id="customMsg" placeholder="यहाँ अपना व्यक्तिगत संदेश लिखें...">मेरी प्यारी बहन/भाई, तुम्हारे लिए मेरी दुआएँ और प्यार हमेशा बनी रहे। हैप्पी राखी!</textarea>
+
+        <div style="display:flex; justify-content:space-between; gap:10px; margin-top:10px;">
+          <div style="flex:1">
+            <div style="font-size:13px; color:rgba(255,255,255,0.75); margin-bottom:8px">ताज़ा शुभकामनाएँ</div>
+            <div class="templates" id="templates">
+              <div class="chip">मेरी प्यारी बहन, तुम्हारी हँसी हमेशा खिली रहे। हैप्पी राखी!</div>
+              <div class="chip">बहन के बिना बचपन अधूरा है — प्यार और दुआओं के साथ। शुभ रक्षा बंधन!</div>
+              <div class="chip">भाई की शान, घर की शान — तुम्हें खूब खुशियाँ मिलें। राखी मुबारक!</div>
+              <div class="chip">रिश्तों का यह बंधन हमेशा मजबूत रहे — ढेर सारा प्यार!</div>
+              <div class="chip">तुम्हारा प्यार मेरी ज़िंदगी का सबसे खूबसूरत हिस्सा है। रक्षा बंधन की शुभकामनाएँ!</div>
+              <div class="chip">हमारा रिश्ता दुनिया के सबसे खूबसूरत रिश्तों में से एक है। हैप्पी रक्षा बंधन!</div>
+            </div>
           </div>
-          <div class="stat-label">कुल ऑर्डर: 70</div>
-        </div>
-      </div>
-      
-      <div class="admin-card">
-        <div class="card-header">
-          <div class="card-icon">💰</div>
-          <div class="card-title">आज की कमाई</div>
-        </div>
-        <div class="card-content">
-          <div class="stat-number">₹8,560</div>
-          <div class="stat-label">पिछले सप्ताह से 18% वृद्धि</div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 45%"></div>
+
+          <div style="flex:0 0 140px;">
+            <div style="font-size:13px; color:rgba(255,255,255,0.75); margin-bottom:8px">एक्शन</div>
+            <div class="controls">
+              <button class="btn" id="applyBtn">Apply</button>
+              <button class="btn ghost" id="copyBtn">Copy</button>
+              <button class="btn whatsapp" id="waBtn">WhatsApp</button>
+              <button class="btn" id="downloadBtn">Download</button>
+            </div>
           </div>
-          <div class="stat-label">मासिक लक्ष्य: ₹250,000</div>
-        </div>
-      </div>
-      
-      <div class="admin-card">
-        <div class="card-header">
-          <div class="card-icon">📊</div>
-          <div class="card-title">सेवा विश्लेषण</div>
-        </div>
-        <div class="card-content">
-          <div class="chart-container">
-            <div class="chart-bar" style="height: 70%"><div class="chart-label">Courier</div></div>
-            <div class="chart-bar" style="height: 40%"><div class="chart-label">Kirana</div></div>
-            <div class="chart-bar" style="height: 85%"><div class="chart-label">Digital</div></div>
-            <div class="chart-bar" style="height: 60%"><div class="chart-label">VIP</div></div>
-            <div class="chart-bar" style="height: 30%"><div class="chart-label">Books</div></div>
-          </div>
-          <div class="stat-label">सर्विस यूज़ (प्रतिशत में)</div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="recent-orders">
-      <div class="card-header">
-        <div class="card-icon">📝</div>
-        <div class="card-title">हाल के आदेश</div>
-      </div>
-      
-      <div class="orders-list">
-        <div class="order-item">
-          <div class="order-info">
-            <div>#ORD00125 - Rajesh Kumar</div>
-            <div class="stat-label">Courier: Delhi to Mumbai</div>
-          </div>
-          <div class="order-status status-pending">Pending</div>
         </div>
         
-        <div class="order-item">
-          <div class="order-info">
-            <div>#ORD00124 - Priya Sharma</div>
-            <div class="stat-label">Kirana: ₹1,250</div>
-          </div>
-          <div class="order-status status-processing">Processing</div>
-        </div>
-        
-        <div class="order-item">
-          <div class="order-info">
-            <div>#ORD00123 - Vikram Singh</div>
-            <div class="stat-label">Digital Seva: PAN Card</div>
-          </div>
-          <div class="order-status status-completed">Completed</div>
+        <div class="slideshow-controls">
+          <div class="slideshow-btn" id="prevBtn">←</div>
+          <div class="slideshow-indicator" id="slideshowIndicator">1/6</div>
+          <div class="slideshow-btn" id="nextBtn">→</div>
+          <button class="btn slideshow" id="slideshowToggle">Slideshow: OFF</button>
         </div>
       </div>
+
+      <!-- RIGHT -->
+      <aside class="side">
+        <div class="card-small">
+          <strong>टिप्स</strong>
+          <ul style="margin:8px 0 0; padding-left:18px; color:rgba(255,255,255,0.8)">
+            <li>अपने संदेश को व्यक्तिगत बनाएं — नाम जोड़ें।</li>
+            <li>WhatsApp पर भेजने से पहले preview चेक करें।</li>
+            <li>Download Image से आप संदेश का पोस्ट शेयर कर सकते हैं।</li>
+            <li>Slideshow मोड में 5 सेकंड के अंतराल पर संदेश बदलते रहेंगे।</li>
+          </ul>
+        </div>
+
+        <div class="card-small">
+          <strong>Quick Share</strong>
+          <div class="share-list" style="margin-top:8px;">
+            <button class="btn whatsapp" id="shareWa">Share on WhatsApp</button>
+            <button class="btn ghost" id="shareCopy">Copy Text</button>
+          </div>
+        </div>
+
+        <div class="card-small">
+          <strong>Personalize</strong>
+          <div style="margin-top:8px;">
+            <div style="display:flex; gap:8px; margin-bottom:8px;">
+              <input type="text" id="siblingName" placeholder="भाई/बहन का नाम" style="flex:1; padding:8px; border-radius:8px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:white;">
+            </div>
+            <button class="btn ghost" id="addNameBtn" style="width:100%">नाम जोड़ें</button>
+          </div>
+        </div>
+
+        <div class="card-small" style="text-align:center; font-size:13px; color:rgba(255,255,255,0.8);">
+          <div style="font-weight:700; margin-bottom:6px">शुभ रक्षा बंधन!</div>
+          <div>भाई-बहन का प्यार हमेशा बना रहे 💖</div>
+        </div>
+      </aside>
     </div>
+
+    <footer>© आपकी शुभकामनाएँ • Customize करके शेयर करें</footer>
   </div>
+  
+  <div class="toast" id="toast"></div>
+
+  <!-- html2canvas CDN for download as image -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <script>
-    // Admin Functions
-    function openAdmin() {
-      document.getElementById('adminModal').style.display = 'flex';
-    }
+    const custom = document.getElementById('customMsg');
+    const previewMsg = document.getElementById('previewMsg');
+    const applyBtn = document.getElementById('applyBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const waBtn = document.getElementById('waBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const templates = document.getElementById('templates');
+    const shareWa = document.getElementById('shareWa');
+    const shareCopy = document.getElementById('shareCopy');
+    const toast = document.getElementById('toast');
+    const siblingName = document.getElementById('siblingName');
+    const addNameBtn = document.getElementById('addNameBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slideshowToggle = document.getElementById('slideshowToggle');
+    const slideshowIndicator = document.getElementById('slideshowIndicator');
     
-    function closeAdmin() {
-      document.getElementById('adminModal').style.display = 'none';
-    }
+    // Message templates
+    const messageTemplates = [
+      "मेरी प्यारी बहन/भाई, तुम्हारे लिए मेरी दुआएँ और प्यार हमेशा बनी रहे। हैप्पी राखी!",
+      "मेरी प्यारी बहन, तुम्हारी हँसी हमेशा खिली रहे। हैप्पी राखी!",
+      "बहन के बिना बचपन अधूरा है — प्यार और दुआओं के साथ। शुभ रक्षा बंधन!",
+      "भाई की शान, घर की शान — तुम्हें खूब खुशियाँ मिलें। राखी मुबारक!",
+      "रिश्तों का यह बंधन हमेशा मजबूत रहे — ढेर सारा प्यार!",
+      "तुम्हारा प्यार मेरी ज़िंदगी का सबसे खूबसूरत हिस्सा है। रक्षा बंधन की शुभकामनाएँ!",
+      "हमारा रिश्ता दुनिया के सबसे खूबसूरत रिश्तों में से एक है। हैप्पी रक्षा बंधन!"
+    ];
     
-    function adminLogin(event) {
-      event.preventDefault();
-      document.getElementById('adminModal').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
+    let currentTemplateIndex = 0;
+    let slideshowActive = false;
+    let slideshowInterval;
+
+    // Initialize templates
+    function initTemplates() {
+      templates.innerHTML = '';
+      messageTemplates.forEach((msg, index) => {
+        if (index === 0) return; // Skip first as it's already in textarea
+        const chip = document.createElement('div');
+        chip.classList.add('chip');
+        chip.textContent = msg;
+        templates.appendChild(chip);
+      });
+      
+      updateSlideshowIndicator();
     }
-    
-    function logoutAdmin() {
-      document.getElementById('adminPanel').style.display = 'none';
+
+    // Apply textarea to preview with animation
+    function updatePreview(){
+      const txt = custom.value.trim();
+      previewMsg.textContent = txt || 'राखी की हार्दिक शुभकामनाएं!';
+      
+      // Add animation class
+      previewMsg.classList.remove('msg');
+      void previewMsg.offsetWidth; // Trigger reflow
+      previewMsg.classList.add('msg');
     }
+
+    applyBtn.addEventListener('click', () => {
+      updatePreview();
+      showToast('Preview अपडेट हो गया');
+    });
+
+    // click template to insert
+    templates.addEventListener('click', (e) => {
+      if(e.target.classList.contains('chip')){
+        custom.value = e.target.textContent;
+        updatePreview();
+        showToast('Template applied');
+      }
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(custom.value);
+        showToast('Message copied to clipboard');
+      }catch(e){
+        showToast('Copy failed — allow clipboard permission');
+      }
+    });
+
+    shareCopy.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(custom.value);
+        showToast('Message copied');
+      }catch(e){ showToast('Copy failed'); }
+    });
+
+    // WhatsApp sharing
+    function openWhatsAppWith(text){
+      const phone = ''; // optional: put default number like "916351598832" or leave blank
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+
+    waBtn.addEventListener('click', () => {
+      const text = custom.value || previewMsg.textContent;
+      openWhatsAppWith(text + '\n\n— मेरी ओर से ❤️');
+    });
+
+    shareWa.addEventListener('click', () => {
+      const text = custom.value || previewMsg.textContent;
+      openWhatsAppWith(text + '\n\n— मेरी ओर से ❤️');
+    });
+
+    // Download preview area as image
+    downloadBtn.addEventListener('click', () => {
+      const node = document.getElementById('previewCard');
+
+      // temporarily increase size for better quality
+      html2canvas(node, { 
+        scale: 2, 
+        backgroundColor: null,
+        useCORS: true 
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'raksha-bandhan-wish.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        showToast('Image downloaded');
+      }).catch(()=> showToast('Download failed'));
+    });
     
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-      if (event.target === document.getElementById('adminModal')) {
-        closeAdmin();
+    // Add sibling name to message
+    addNameBtn.addEventListener('click', () => {
+      const name = siblingName.value.trim();
+      if (name) {
+        const currentMsg = custom.value;
+        const newMsg = currentMsg.replace('बहन/भाई', name);
+        custom.value = newMsg;
+        updatePreview();
+        showToast(`नाम जोड़ा गया: ${name}`);
+      } else {
+        showToast('कृपया नाम डालें');
       }
     });
     
-    // Download App Function
-    function downloadApp() {
-      const apkUrl = "https://drive.google.com/uc?export=download&id=1Dv_I0ylLJYdGzECBEQjNjPutHlefbKyq";
-      document.getElementById("msg").textContent = "⏳ Download शुरू हो रहा है...";
+    // Slideshow functions
+    function showTemplate(index) {
+      currentTemplateIndex = index;
+      custom.value = messageTemplates[index];
+      updatePreview();
+      updateSlideshowIndicator();
+    }
+    
+    function nextTemplate() {
+      currentTemplateIndex = (currentTemplateIndex + 1) % messageTemplates.length;
+      showTemplate(currentTemplateIndex);
+    }
+    
+    function prevTemplate() {
+      currentTemplateIndex = (currentTemplateIndex - 1 + messageTemplates.length) % messageTemplates.length;
+      showTemplate(currentTemplateIndex);
+    }
+    
+    function toggleSlideshow() {
+      slideshowActive = !slideshowActive;
+      
+      if (slideshowActive) {
+        slideshowToggle.textContent = 'Slideshow: ON';
+        slideshowInterval = setInterval(nextTemplate, 5000);
+        showToast('Slideshow started');
+      } else {
+        slideshowToggle.textContent = 'Slideshow: OFF';
+        clearInterval(slideshowInterval);
+        showToast('Slideshow stopped');
+      }
+    }
+    
+    function updateSlideshowIndicator() {
+      slideshowIndicator.textContent = `${currentTemplateIndex + 1}/${messageTemplates.length}`;
+    }
+    
+    // Slideshow event listeners
+    prevBtn.addEventListener('click', prevTemplate);
+    nextBtn.addEventListener('click', nextTemplate);
+    slideshowToggle.addEventListener('click', toggleSlideshow);
+
+    // Toast notification function
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      
       setTimeout(() => {
-        document.getElementById("msg").textContent = "✅ Download शुरू हो गया!";
-        window.location.href = apkUrl;
-      }, 500);
+        toast.classList.remove('show');
+      }, 3000);
     }
+
+    // live preview on typing
+    custom.addEventListener('input', updatePreview);
+
+    // initialize
+    initTemplates();
+    updatePreview();
     
-    // Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(function(registration) {
-            console.log('ServiceWorker registration successful');
-          })
-          .catch(function(err) {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-      });
-    }
-    
-    // Prevent zooming on mobile
-    document.addEventListener('gesturestart', function(e) {
-      e.preventDefault();
-    });
+    // Add more floating elements after load
+    setTimeout(() => {
+      for (let i = 0; i < 8; i++) {
+        const size = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        const left = Math.random() * 100;
+        
+        const bubble = document.createElement('div');
+        bubble.classList.add('floating-element', 'bubble');
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${left}%`;
+        bubble.style.top = '100%';
+        bubble.style.animationDelay = `${delay}s`;
+        document.body.appendChild(bubble);
+      }
+    }, 1000);
   </script>
 </body>
 </html>
