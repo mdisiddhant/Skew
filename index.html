@@ -148,6 +148,7 @@
             overflow: hidden;
             height: 400px;
             background: #f8f9fa;
+            position: relative;
         }
         
         #plotCanvas {
@@ -280,6 +281,26 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        .map-title {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .canvas-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -352,8 +373,14 @@
             </div>
             
             <div class="visualization-section">
-                <div class="canvas-container">
-                    <canvas id="plotCanvas"></canvas>
+                <div>
+                    <div class="map-title">Floor Plan Visualization</div>
+                    <div class="canvas-container">
+                        <canvas id="plotCanvas"></canvas>
+                        <div class="canvas-placeholder" id="canvasPlaceholder">
+                            Floor plan will be generated here
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="results-container">
@@ -399,6 +426,7 @@
             const view2DBtn = document.getElementById('view2DBtn');
             const view3DBtn = document.getElementById('view3DBtn');
             const plotCanvas = document.getElementById('plotCanvas');
+            const canvasPlaceholder = document.getElementById('canvasPlaceholder');
             const designOptions = document.querySelectorAll('.design-option');
             
             // Design style selection
@@ -437,6 +465,7 @@
                 view2DBtn.classList.add('active');
                 view3DBtn.classList.remove('active');
                 // In a real app, this would switch to 2D view
+                drawFloorPlan(); // Redraw 2D plan
             });
             
             view3DBtn.addEventListener('click', function() {
@@ -452,7 +481,11 @@
             });
             
             document.getElementById('downloadPngBtn').addEventListener('click', function() {
-                alert('PNG download functionality would be implemented in a complete version');
+                // Create a temporary link to download the canvas as PNG
+                const link = document.createElement('a');
+                link.download = 'floor-plan.png';
+                link.href = plotCanvas.toDataURL('image/png');
+                link.click();
             });
             
             document.getElementById('shareWhatsappBtn').addEventListener('click', function() {
@@ -550,7 +583,7 @@
                 return rooms;
             }
             
-             // Update the room list UI
+            // Update the room list UI
             function updateRoomList(rooms) {
                 roomList.innerHTML = '';
                 
@@ -566,15 +599,24 @@
                 const canvas = document.getElementById('plotCanvas');
                 const ctx = canvas.getContext('2d');
                 
-                // Set canvas size
-                canvas.width = canvas.clientWidth;
-                canvas.height = canvas.clientHeight;
+                // Set canvas size to match container
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+                
+                // Hide placeholder
+                canvasPlaceholder.style.display = 'none';
                 
                 // Clear canvas
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
-                // Scale to fit the plot in the canvas
-                const scale = Math.min(canvas.width / (width * 1.2), canvas.height / (height * 1.2));
+                // Scale to fit the plot in the canvas with some padding
+                const padding = 40;
+                const scale = Math.min(
+                    (canvas.width - padding) / width, 
+                    (canvas.height - padding) / height
+                );
+                
                 const offsetX = (canvas.width - width * scale) / 2;
                 const offsetY = (canvas.height - height * scale) / 2;
                 
@@ -583,78 +625,134 @@
                 ctx.lineWidth = 2;
                 ctx.strokeRect(offsetX, offsetY, width * scale, height * scale);
                 
-                // Draw some random rooms for demonstration
-                const roomColors = ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c'];
+                // Draw title
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Generated Floor Plan', canvas.width / 2, 20);
                 
-                // Simple grid of rooms for demonstration
-                const cols = 3;
-                const rows = 3;
-                const roomWidth = width / cols;
-                const roomHeight = height / rows;
+                // Draw grid for reference (optional)
+                ctx.strokeStyle = '#eee';
+                ctx.lineWidth = 1;
+                const gridSize = 10; // 10ft grid
                 
-                for (let i = 0; i < cols; i++) {
-                    for (let j = 0; j < rows; j++) {
-                        if (i === 0 && j === 0) continue; // Leave space for corridor
-                        
-                        const roomX = offsetX + i * roomWidth * scale;
-                        const roomY = offsetY + j * roomHeight * scale;
-                        const roomW = roomWidth * scale;
-                        const roomH = roomHeight * scale;
-                        
-                        // Draw room
-                        ctx.fillStyle = roomColors[(i + j) % roomColors.length] + '80'; // Semi-transparent
-                        ctx.fillRect(roomX, roomY, roomW, roomH);
-                        ctx.strokeStyle = '#2c3e50';
-                        ctx.lineWidth = 1;
-                        ctx.strokeRect(roomX, roomY, roomW, roomH);
-                        
-                        // Room label
-                        ctx.fillStyle = '#2c3e50';
-                        ctx.font = '12px Arial';
-                        ctx.textAlign = 'center';
-                        const roomNames = ['Living', 'Kitchen', 'Bedroom', 'Bathroom', 'Dining', 'Study'];
-                        ctx.fillText(roomNames[(i + j) % roomNames.length], roomX + roomW/2, roomY + roomH/2);
-                    }
+                for (let x = 0; x <= width; x += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(offsetX + x * scale, offsetY);
+                    ctx.lineTo(offsetX + x * scale, offsetY + height * scale);
+                    ctx.stroke();
                 }
                 
-                // Draw corridor
-                ctx.fillStyle = '#ecf0f1';
-                ctx.fillRect(offsetX, offsetY, roomWidth * scale, height * scale);
+                for (let y = 0; y <= height; y += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(offsetX, offsetY + y * scale);
+                    ctx.lineTo(offsetX + width * scale, offsetY + y * scale);
+                    ctx.stroke();
+                }
+                
+                // Draw rooms with different colors
+                const roomColors = ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c'];
+                
+                // Draw a simple layout with rooms
+                const roomWidth = (width * 0.7) * scale;
+                const roomHeight = (height * 0.4) * scale;
+                
+                // Living room
+                ctx.fillStyle = roomColors[0] + '80';
+                ctx.fillRect(offsetX + 10 * scale, offsetY + 10 * scale, roomWidth, roomHeight);
                 ctx.strokeStyle = '#2c3e50';
                 ctx.lineWidth = 1;
-                ctx.strokeRect(offsetX, offsetY, roomWidth * scale, height * scale);
+                ctx.strokeRect(offsetX + 10 * scale, offsetY + 10 * scale, roomWidth, roomHeight);
                 ctx.fillStyle = '#2c3e50';
-                ctx.fillText('Corridor', offsetX + roomWidth * scale/2, offsetY + height * scale/2);
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Living Room', offsetX + 10 * scale + roomWidth/2, offsetY + 10 * scale + roomHeight/2);
                 
-                // Draw entrance
+                // Kitchen
+                ctx.fillStyle = roomColors[1] + '80';
+                ctx.fillRect(offsetX + 10 * scale, offsetY + (10 + 40) * scale, roomWidth/2, roomHeight/1.5);
+                ctx.strokeRect(offsetX + 10 * scale, offsetY + (10 + 40) * scale, roomWidth/2, roomHeight/1.5);
+                ctx.fillStyle = '#2c3e50';
+                ctx.fillText('Kitchen', offsetX + 10 * scale + roomWidth/4, offsetY + (10 + 40) * scale + roomHeight/3);
+                
+                // Bedroom 1
+                ctx.fillStyle = roomColors[2] + '80';
+                ctx.fillRect(offsetX + (10 + 70) * scale, offsetY + 10 * scale, roomWidth/1.5, roomHeight);
+                ctx.strokeRect(offsetX + (10 + 70) * scale, offsetY + 10 * scale, roomWidth/1.5, roomHeight);
+                ctx.fillStyle = '#2c3e50';
+                ctx.fillText('Bedroom 1', offsetX + (10 + 70) * scale + roomWidth/3, offsetY + 10 * scale + roomHeight/2);
+                
+                // Bathroom
+                ctx.fillStyle = roomColors[3] + '80';
+                ctx.fillRect(offsetX + (10 + 70) * scale, offsetY + (10 + 40) * scale, roomWidth/3, roomHeight/2);
+                ctx.strokeRect(offsetX + (10 + 70) * scale, offsetY + (10 + 40) * scale, roomWidth/3, roomHeight/2);
+                ctx.fillStyle = '#2c3e50';
+                ctx.fillText('Bathroom', offsetX + (10 + 70) * scale + roomWidth/6, offsetY + (10 + 40) * scale + roomHeight/4);
+                
+                // Draw doors
                 ctx.strokeStyle = '#27ae60';
                 ctx.lineWidth = 2;
+                
+                // Main entrance
                 ctx.beginPath();
-                ctx.arc(offsetX + roomWidth * scale/2, offsetY + height * scale - 10, 10, 0, Math.PI, true);
+                ctx.arc(offsetX + 15 * scale, offsetY + 15 * scale, 5, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // Interior doors
+                ctx.beginPath();
+                ctx.arc(offsetX + 40 * scale, offsetY + 50 * scale, 4, 0, Math.PI * 2);
                 ctx.stroke();
                 
                 // Draw windows
                 ctx.strokeStyle = '#3498db';
                 ctx.lineWidth = 3;
                 
-                // Right side windows
-                for (let i = 0; i < rows; i++) {
-                    ctx.beginPath();
-                    ctx.moveTo(offsetX + width * scale, offsetY + i * roomHeight * scale + 30);
-                    ctx.lineTo(offsetX + width * scale, offsetY + (i + 1) * roomHeight * scale - 30);
-                    ctx.stroke();
-                }
-                
-                // Top side windows
+                // Window on the top wall
                 ctx.beginPath();
-                ctx.moveTo(offsetX + 50, offsetY);
-                ctx.lineTo(offsetX + width * scale - 50, offsetY);
+                ctx.moveTo(offsetX + 20 * scale, offsetY);
+                ctx.lineTo(offsetX + 40 * scale, offsetY);
                 ctx.stroke();
+                
+                // Window on the right wall
+                ctx.beginPath();
+                ctx.moveTo(offsetX + width * scale, offsetY + 20 * scale);
+                ctx.lineTo(offsetX + width * scale, offsetY + 35 * scale);
+                ctx.stroke();
+                
+                // Draw dimensions
+                ctx.strokeStyle = '#7f8c8d';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([5, 3]);
+                
+                // Width dimension
+                ctx.beginPath();
+                ctx.moveTo(offsetX, offsetY - 10);
+                ctx.lineTo(offsetX + width * scale, offsetY - 10);
+                ctx.stroke();
+                
+                // Height dimension
+                ctx.beginPath();
+                ctx.moveTo(offsetX + width * scale + 10, offsetY);
+                ctx.lineTo(offsetX + width * scale + 10, offsetY + height * scale);
+                ctx.stroke();
+                
+                ctx.setLineDash([]);
+                
+                // Dimension labels
+                ctx.fillStyle = '#7f8c8d';
+                ctx.font = '10px Arial';
+                ctx.fillText(`${width} ft`, offsetX + (width * scale)/2, offsetY - 15);
+                
+                ctx.save();
+                ctx.translate(offsetX + width * scale + 15, offsetY + (height * scale)/2);
+                ctx.rotate(Math.PI/2);
+                ctx.fillText(`${height} ft`, 0, 0);
+                ctx.restore();
             }
             
             // Initial demo render
             window.addEventListener('load', function() {
-                // Trigger a initial render for demonstration
+                // Trigger an initial render for demonstration
                 setTimeout(() => {
                     generateBtn.click();
                 }, 500);
@@ -663,3 +761,4 @@
     </script>
 </body>
 </html>
+                
